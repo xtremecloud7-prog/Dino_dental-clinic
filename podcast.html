@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<!--
+  podcast.html — DINO DENTAL KAMPALA
+  The Dino Dentist Podcast: Hero, Live Stream, Subscribe, Episode Library
+  Navigation and footer are PIXEL-IDENTICAL to all other pages in the site.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Dino Dentist Podcast | Live Sessions & Episodes | Dino Dental Kampala</title>
+  <meta name="description" content="Listen to The Dino Dentist Podcast — East Africa's first dental media platform. Live sessions on YouTube, episode replays, and oral health conversations from Kampala."/>
+  <meta property="og:title" content="The Dino Dentist Podcast | Dino Dental Kampala"/>
+  <meta property="og:description" content="Conversations about oral health, confidence, and beautiful smiles. Live on YouTube."/>
+
+  <!-- Google Fonts — identical to all site pages -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+  <!-- Font Awesome — identical to all site pages -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    /* ============================================================
+       GLOBAL RESET & CSS VARIABLES
+       Identical to all other pages in the Dino Dental Kampala site
+    ============================================================ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --cream:      #f0f4f8;
+      --charcoal:   #1a1a1a;
+      --gold:       #1a73e8;
+      --gold-light: #4a90f5;
+      --gold-dark:  #1557b0;
+      --teal:       #0d62c9;
+      --white:      #FFFFFF;
+      --dark-bg:    #f0f4f8;
+      --darker-bg:  #ffffff;
+      --card-bg:    #e8edf2;
+      --nav-h:      72px;
+      --live-red:   #E03030;
+      --ease:       cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark-bg);
+      color: var(--charcoal);
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* ============================================================
+       NAVIGATION — exact match to index.html / all site pages
+    ============================================================ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      height: var(--nav-h);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease);
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 2px 12px rgba(26,115,232,0.08);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 700;
+      color: var(--gold); letter-spacing: 0.1em;
+    }
+    .nav-logo span { color: var(--charcoal); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.82rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(26,26,26,0.65);
+      font-weight: 500; transition: color 0.3s var(--ease);
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 1px; background: var(--gold);
+      transition: width 0.3s var(--ease);
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--gold); }
+    .nav-links a:hover::after,
+    .nav-links a.active::after { width: 100%; }
+    .nav-book {
+      background: var(--gold); color: #ffffff;
+      padding: 0.55rem 1.4rem; border-radius: 2px;
+      font-size: 0.78rem; letter-spacing: 0.12em;
+      text-transform: uppercase; font-weight: 600;
+      transition: background 0.3s;
+    }
+    .nav-book:hover { background: var(--gold-light); color: #ffffff; }
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: #1a1a1a; transition: all 0.3s var(--ease);
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu {
+      display: none; position: fixed;
+      top: var(--nav-h); left: 0; right: 0;
+      background: rgba(255,255,255,0.98); backdrop-filter: blur(20px);
+      padding: 2rem; flex-direction: column; gap: 1.5rem;
+      border-top: 1px solid rgba(26,115,232,0.15); z-index: 999;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 1.1rem; color: rgba(26,26,26,0.8);
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(26,26,26,0.08);
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+    .mobile-menu .mobile-book {
+      background: var(--gold); color: #ffffff;
+      padding: 0.85rem; text-align: center; font-weight: 700;
+      font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase;
+      border-radius: 2px; border-bottom: none; margin-top: 0.5rem;
+    }
+    .mobile-menu .mobile-book:hover { background: var(--gold-light); }
+
+    /* ============================================================
+       SCROLL REVEAL UTILITY
+    ============================================================ */
+    .reveal {
+      opacity: 0; transform: translateY(36px);
+      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+    .reveal-d4 { transition-delay: 0.4s; }
+
+    /* ============================================================
+       FLOATING WHATSAPP + SCROLL-TO-TOP — identical to all pages
+    ============================================================ */
+    .whatsapp-float {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 900;
+      width: 56px; height: 56px; border-radius: 50%;
+      background: #25D366;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 1.5rem;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+      animation: waPulse 2.5s ease-in-out infinite;
+      transition: transform 0.3s;
+    }
+    .whatsapp-float:hover { transform: scale(1.1); animation: none; }
+    @keyframes waPulse {
+      0%,100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+      50%      { box-shadow: 0 4px 40px rgba(37,211,102,0.7), 0 0 0 8px rgba(37,211,102,0.1); }
+    }
+    .scroll-top {
+      position: fixed; bottom: 6.5rem; right: 2rem; z-index: 900;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(196,162,101,0.12); border: 1px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold); cursor: pointer;
+      opacity: 0; transform: translateY(10px); pointer-events: none;
+      transition: all 0.3s var(--ease);
+    }
+    .scroll-top.show { opacity: 1; transform: none; pointer-events: all; }
+    .scroll-top:hover { background: var(--gold); color: #ffffff; }
+
+    /* ============================================================
+       FOOTER — exact match to all site pages
+    ============================================================ */
+    .footer {
+      background: #0f1e36;
+      padding: 5rem clamp(1.5rem, 5vw, 5rem) 2rem;
+      color: rgba(255,255,255,0.55);
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem; margin-bottom: 3rem;
+    }
+    .footer-brand .logo-f {
+      font-family: 'Playfair Display', serif; font-size: 1.5rem;
+      color: var(--gold); letter-spacing: 0.1em; margin-bottom: 0.75rem;
+    }
+    .footer-brand p { font-size: 0.85rem; line-height: 1.7; max-width: 280px; }
+    .footer-brand .tagline-f {
+      font-style: italic; color: rgba(255,255,255,0.3);
+      margin-top: 0.5rem; font-size: 0.82rem;
+    }
+    .footer-col h4 {
+      font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.2rem; font-family: 'Inter', sans-serif;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-col ul a {
+      font-size: 0.85rem; color: rgba(255,255,255,0.5); transition: color 0.3s;
+    }
+    .footer-col ul a:hover { color: var(--gold); }
+    .socials { display: flex; gap: 1rem; margin-top: 1.5rem; }
+    .socials a {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.5); font-size: 0.85rem; transition: all 0.3s;
+    }
+    .socials a:hover { border-color: var(--gold); color: var(--gold); }
+    .footer-bottom {
+      padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.07);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-bottom p { font-size: 0.78rem; }
+
+    /* ============================================================
+       SECTION SHARED STYLES
+    ============================================================ */
+    .section-eyebrow {
+      font-size: 0.72rem; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.75rem; display: block;
+    }
+    .section-divider {
+      width: 48px; height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      margin: 1.5rem 0;
+    }
+    .gold-btn {
+      display: inline-flex; align-items: center; gap: 0.65rem;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+      color: var(--dark-bg); padding: 0.95rem 2.4rem;
+      font-size: 0.88rem; letter-spacing: 0.15em; text-transform: uppercase;
+      font-weight: 700; border-radius: 2px; border: none; cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s var(--ease);
+      box-shadow: 0 4px 24px rgba(196,162,101,0.2);
+    }
+    .gold-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 36px rgba(196,162,101,0.35);
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
+    }
+    .outline-btn {
+      display: inline-flex; align-items: center; gap: 0.65rem;
+      background: transparent;
+      color: var(--gold); padding: 0.9rem 2.2rem;
+      font-size: 0.88rem; letter-spacing: 0.15em; text-transform: uppercase;
+      font-weight: 600; border-radius: 2px;
+      border: 1px solid rgba(196,162,101,0.5);
+      transition: all 0.3s var(--ease); cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+    .outline-btn:hover {
+      background: rgba(196,162,101,0.08);
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+    .yt-btn {
+      display: inline-flex; align-items: center; gap: 0.65rem;
+      background: #FF0000; color: #fff;
+      padding: 0.95rem 2.4rem;
+      font-size: 0.88rem; letter-spacing: 0.12em; text-transform: uppercase;
+      font-weight: 700; border-radius: 2px; border: none; cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s var(--ease);
+      box-shadow: 0 4px 24px rgba(255,0,0,0.25);
+    }
+    .yt-btn:hover {
+      background: #cc0000;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 36px rgba(255,0,0,0.35);
+    }
+    .wa-btn {
+      display: inline-flex; align-items: center; gap: 0.65rem;
+      background: #25D366; color: #fff;
+      padding: 0.9rem 2rem; font-size: 0.85rem;
+      letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700;
+      border-radius: 2px; transition: all 0.3s var(--ease);
+      border: none; cursor: pointer; font-family: 'Inter', sans-serif;
+    }
+    .wa-btn:hover { background: #1ab553; transform: translateY(-2px); }
+
+    /* ============================================================
+       1. HERO SECTION
+    ============================================================ */
+    .hero {
+      position: relative;
+      min-height: 88vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: calc(var(--nav-h) + 5rem) clamp(1.5rem, 5vw, 5rem) 6rem;
+      background: var(--darker-bg);
+      overflow: hidden;
+    }
+    /* Radial glow layers */
+    .hero::before {
+      content: ''; position: absolute;
+      top: -20%; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 600px; border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(196,162,101,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 15% 80%, rgba(61,139,139,0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 20%, rgba(196,162,101,0.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    /* Animated grid lines */
+    .hero-grid {
+      position: absolute; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(26,115,232,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(26,115,232,0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 820px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: rgba(26,115,232,0.06);
+      border: 1px solid rgba(26,115,232,0.18);
+      padding: 0.4rem 1.1rem; border-radius: 20px;
+      font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 2rem;
+    }
+    .hero-badge-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--teal);
+    }
+    .hero-eyebrow {
+      font-size: 0.78rem; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.2rem;
+      opacity: 0; transform: translateY(20px);
+      animation: heroIn 0.8s var(--ease) 0.2s forwards;
+    }
+    .hero-title {
+      font-size: clamp(3rem, 8vw, 6.5rem); line-height: 1.05; font-weight: 700;
+      color: var(--charcoal); margin-bottom: 0.3rem;
+      opacity: 0; transform: translateY(28px);
+      animation: heroIn 0.9s var(--ease) 0.4s forwards;
+    }
+    .hero-title em { color: var(--gold); font-style: italic; }
+    .hero-title .mic-icon {
+      display: inline-block;
+      animation: micBounce 3s ease-in-out infinite;
+    }
+    @keyframes micBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+    .hero-subtitle {
+      font-size: clamp(1.05rem, 2.5vw, 1.4rem);
+      font-family: 'Playfair Display', serif; font-style: italic;
+      color: rgba(26,26,26,0.55); margin-top: 0.75rem; line-height: 1.7;
+      opacity: 0; transform: translateY(24px);
+      animation: heroIn 0.9s var(--ease) 0.65s forwards;
+    }
+    .hero-divider {
+      width: 56px; height: 1px; background: var(--gold);
+      margin: 2rem auto;
+      opacity: 0; transform: scaleX(0);
+      animation: dividerIn 0.8s var(--ease) 0.9s forwards;
+    }
+    .hero-actions {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      opacity: 0; transform: translateY(20px);
+      animation: heroIn 0.8s var(--ease) 1.1s forwards;
+    }
+    /* Waveform decoration */
+    .hero-wave {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 1;
+      height: 80px; overflow: hidden;
+    }
+    .hero-wave svg { width: 100%; height: 100%; }
+    @keyframes heroIn { to { opacity: 1; transform: none; } }
+    @keyframes dividerIn { to { opacity: 1; transform: scaleX(1); } }
+
+    /* ============================================================
+       2. LIVE SECTION
+    ============================================================ */
+    .live-section {
+      padding: 7rem clamp(1.5rem, 5vw, 5rem);
+      background: #f0f4f8;
+      position: relative; overflow: hidden;
+    }
+    .live-section::before {
+      content: ''; position: absolute; top: -60%; right: -5%;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(224,48,48,0.05) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .live-inner {
+      max-width: 820px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+    }
+    .live-tag {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: rgba(224,48,48,0.12);
+      border: 1px solid rgba(224,48,48,0.3);
+      padding: 0.4rem 1rem; border-radius: 20px;
+      font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--live-red); margin-bottom: 1.2rem; width: fit-content;
+    }
+    .live-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--live-red);
+      animation: livePulse 1.2s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes livePulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(224,48,48,0.5); }
+      50%      { box-shadow: 0 0 0 6px rgba(224,48,48,0); }
+    }
+    .live-title { font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.15; color: var(--charcoal); }
+    .live-title em { color: var(--gold); font-style: italic; }
+    .live-body {
+      font-size: 0.95rem; color: rgba(26,26,26,0.6); line-height: 1.8;
+      margin-top: 1rem; margin-bottom: 2rem;
+    }
+    .live-btn-hint {
+      display: block; font-size: 0.75rem; color: rgba(26,26,26,0.4);
+      margin-top: 0.9rem; letter-spacing: 0.05em;
+    }
+    .live-btn-hint i { color: var(--gold); margin-right: 0.3rem; }
+    /* Visual panel — animated rings */
+    .live-visual {
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      aspect-ratio: 1;
+    }
+    .ring {
+      position: absolute; border-radius: 50%;
+      border: 1px solid rgba(224,48,48,0.15);
+      animation: ringExpand 3s ease-in-out infinite;
+    }
+    .ring-1 { width: 80%;  height: 80%;  animation-delay: 0s; }
+    .ring-2 { width: 90%;  height: 90%;  animation-delay: 0.6s; }
+    .ring-3 { width: 100%; height: 100%; animation-delay: 1.2s; }
+    @keyframes ringExpand {
+      0%,100% { opacity: 0.2; transform: scale(0.97); }
+      50%      { opacity: 0.6; transform: scale(1.01); }
+    }
+    .live-circle {
+      width: 55%; height: 55%; border-radius: 50%; position: relative; z-index: 2;
+      background: linear-gradient(135deg, rgba(224,48,48,0.08), rgba(26,115,232,0.08));
+      border: 1px solid rgba(26,115,232,0.2);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.5rem;
+    }
+    .live-circle i { font-size: 2.2rem; color: var(--gold); }
+    .live-circle span {
+      font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: rgba(26,26,26,0.45);
+    }
+
+    /* ============================================================
+       3. SUBSCRIBE SECTION
+    ============================================================ */
+    .subscribe-section {
+      padding: 7rem clamp(1.5rem, 5vw, 5rem);
+      background: #f8faff;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .subscribe-section::before {
+      content: ''; position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 60%, rgba(26,115,232,0.05) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .subscribe-inner { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
+    .subscribe-icon {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: rgba(26,115,232,0.06);
+      border: 1px solid rgba(26,115,232,0.18);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 2rem;
+    }
+    .subscribe-icon i { font-size: 2rem; color: var(--gold); }
+    .subscribe-title { font-size: clamp(2rem, 4.5vw, 3.5rem); color: var(--charcoal); line-height: 1.15; }
+    .subscribe-title em { color: var(--gold); font-style: italic; }
+    .subscribe-body {
+      font-size: 0.95rem; color: rgba(26,26,26,0.55); line-height: 1.8;
+      margin-top: 1rem; margin-bottom: 2.5rem;
+    }
+    .subscribe-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    /* Platform chips */
+    .platform-chips {
+      display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;
+      margin-top: 2.5rem; padding-top: 2.5rem;
+      border-top: 1px solid rgba(26,26,26,0.1);
+    }
+    .chip {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.5rem 1.2rem; border-radius: 20px;
+      border: 1px solid rgba(26,26,26,0.15);
+      font-size: 0.8rem; color: rgba(26,26,26,0.5);
+      transition: all 0.3s var(--ease);
+    }
+    .chip:hover { border-color: var(--gold); color: var(--gold); }
+    .chip i { font-size: 1rem; }
+    .chip.yt:hover  { color: #FF0000; border-color: #FF0000; }
+    .chip.fb:hover  { color: #1877F2; border-color: #1877F2; }
+    .chip.sp:hover  { color: #1DB954; border-color: #1DB954; }
+    .chip.wa:hover  { color: #25D366; border-color: #25D366; }
+
+    /* ============================================================
+       4. EPISODES SECTION
+    ============================================================ */
+    .episodes-section {
+      padding: 7rem clamp(1.5rem, 5vw, 5rem);
+      background: #f8faff;
+    }
+    .episodes-header { margin-bottom: 3.5rem; }
+    .episodes-header h2 { font-size: clamp(2rem, 4vw, 3rem); color: var(--charcoal); }
+    .episodes-header p {
+      font-size: 0.92rem; color: rgba(26,26,26,0.5);
+      margin-top: 0.6rem; max-width: 520px; line-height: 1.7;
+    }
+    /* Episode grid */
+    .episodes-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    }
+    .episode-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(26,26,26,0.1);
+      border-radius: 6px; overflow: hidden;
+      transition: all 0.4s var(--ease);
+      cursor: default;
+    }
+    .episode-card:hover {
+      border-color: rgba(26,115,232,0.25);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(26,115,232,0.1);
+    }
+    /* Thumbnail placeholder */
+    .ep-thumb {
+      width: 100%; aspect-ratio: 16/9;
+      background: #d8e4f5;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0.75rem; position: relative; overflow: hidden;
+    }
+    .ep-thumb-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(26,115,232,0.06) 0%, rgba(13,98,201,0.04) 100%);
+    }
+    .ep-thumb-icon {
+      position: relative; z-index: 1;
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(26,115,232,0.08);
+      border: 1px solid rgba(26,115,232,0.2);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ep-thumb-icon i { font-size: 1.2rem; color: rgba(26,115,232,0.45); }
+    .ep-coming-soon {
+      position: relative; z-index: 1;
+      font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: rgba(26,26,26,0.35); font-weight: 500;
+    }
+    /* Animated waveform bars in thumb */
+    .ep-waveform {
+      position: absolute; bottom: 0.75rem; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: flex-end; gap: 3px; z-index: 1;
+    }
+    .wbar {
+      width: 3px; background: rgba(26,115,232,0.25); border-radius: 2px;
+      animation: waveAnim 1.4s ease-in-out infinite;
+    }
+    .wbar:nth-child(1) { height: 8px;  animation-delay: 0s; }
+    .wbar:nth-child(2) { height: 16px; animation-delay: 0.15s; }
+    .wbar:nth-child(3) { height: 24px; animation-delay: 0.3s; }
+    .wbar:nth-child(4) { height: 16px; animation-delay: 0.45s; }
+    .wbar:nth-child(5) { height: 10px; animation-delay: 0.6s; }
+    .wbar:nth-child(6) { height: 20px; animation-delay: 0.75s; }
+    .wbar:nth-child(7) { height: 12px; animation-delay: 0.9s; }
+    @keyframes waveAnim {
+      0%,100% { transform: scaleY(1); opacity: 0.3; }
+      50%      { transform: scaleY(1.6); opacity: 0.6; }
+    }
+    /* Card body */
+    .ep-body { padding: 1.5rem; }
+    .ep-number {
+      font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 0.5rem;
+    }
+    .ep-title {
+      font-size: 1rem; color: var(--charcoal); line-height: 1.4; margin-bottom: 0.5rem;
+    }
+    .ep-desc {
+      font-size: 0.82rem; color: rgba(26,26,26,0.5); line-height: 1.6;
+    }
+    .ep-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid rgba(26,26,26,0.08);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .ep-status {
+      font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: rgba(26,26,26,0.35); display: flex; align-items: center; gap: 0.4rem;
+    }
+    .ep-status i { color: var(--gold); opacity: 0.4; }
+    .ep-notify {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); font-weight: 600; opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    .ep-notify:hover { opacity: 1; }
+
+    /* ============================================================
+       5. NOTIFY STRIP (between episodes and footer)
+    ============================================================ */
+    .notify-strip {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+      padding: 4rem clamp(1.5rem, 5vw, 5rem);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 2rem;
+    }
+    .notify-strip-text h3 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      color: var(--dark-bg); line-height: 1.2;
+    }
+    .notify-strip-text p {
+      font-size: 0.9rem; color: rgba(26,26,24,0.65);
+      margin-top: 0.4rem; max-width: 440px; line-height: 1.7;
+    }
+    .notify-strip-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .notify-dark-btn {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: #ffffff; color: var(--gold);
+      padding: 0.9rem 2rem; font-size: 0.85rem;
+      letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700;
+      border-radius: 2px; transition: all 0.3s var(--ease);
+      border: none; cursor: pointer; font-family: 'Inter', sans-serif;
+    }
+    .notify-dark-btn:hover { background: #f0f4f8; transform: translateY(-2px); }
+    .notify-wa-btn {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: rgba(255,255,255,0.15); color: #ffffff;
+      padding: 0.9rem 2rem; font-size: 0.85rem;
+      letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700;
+      border-radius: 2px; border: 1px solid rgba(255,255,255,0.4);
+      transition: all 0.3s var(--ease); cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+    .notify-wa-btn:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 1024px) {
+      .live-inner { grid-template-columns: 1fr; gap: 3rem; max-width: 560px; }
+      .live-visual { display: none; }
+    }
+    @media (max-width: 900px) {
+      .episodes-grid { grid-template-columns: 1fr 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .nav-links, .nav-book { display: none; }
+      .hamburger { display: flex; }
+      .notify-strip { flex-direction: column; }
+    }
+    @media (max-width: 600px) {
+      .episodes-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+      .hero-actions, .subscribe-actions { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION — identical to index.html, about.html, etc.
+  ============================================================ -->
+  <nav class="nav" id="mainNav">
+    <a href="index.html" class="nav-logo">DINO DENTAL <span>KAMPALA</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="podcast.html" class="active">Podcast</a></li>
+      <li><a href="videos.html">Videos</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-book">Book Now</a>
+    <div class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="podcast.html">Podcast</a>
+    <a href="videos.html">Videos</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="contact.html">Contact</a>
+    <a href="contact.html" class="mobile-book">Book Consultation</a>
+  </div>
+
+  <!-- ============================================================
+       1. HERO
+  ============================================================ -->
+  <section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        East Africa's First Dental Media Platform
+      </div>
+      <p class="hero-eyebrow">Now Streaming · Kampala, Uganda</p>
+      <h1 class="hero-title">
+        <span class="mic-icon">🎙️</span> The Dino<br><em>Dentist Podcast</em>
+      </h1>
+      <p class="hero-subtitle">
+        Conversations about oral health, confidence,<br>and beautiful smiles.
+      </p>
+      <div class="hero-divider"></div>
+      <div class="hero-actions">
+        <a href="https://youtube.com/@DinoDentistClinic/live" target="_blank" rel="noopener" class="gold-btn">
+          <i class="fa-solid fa-circle-play"></i> Listen Live Now
+        </a>
+        <a href="https://youtube.com/@DinoDentistClinic" target="_blank" rel="noopener" class="outline-btn">
+          <i class="fa-brands fa-youtube"></i> Subscribe Free
+        </a>
+      </div>
+    </div>
+    <!-- Wave divider -->
+    <div class="hero-wave">
+      <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#f0f4f8"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       2. LIVE SECTION
+  ============================================================ -->
+  <section class="live-section" id="live">
+    <div class="live-inner">
+      <!-- Text side -->
+      <div>
+        <div class="live-tag reveal">
+          <span class="live-dot"></span> Live on YouTube
+        </div>
+        <h2 class="live-title reveal reveal-d1">
+          🔴 Listen <em>Live</em>
+        </h2>
+        <p class="live-body reveal reveal-d2">
+          Dr. Dino is live now — answering your dental questions, sharing smile transformations, and talking all things oral health. No download, no sign-up. Just click and tune in.
+        </p>
+        <a
+          href="https://youtube.com/@DinoDentistClinic/live"
+          target="_blank"
+          rel="noopener"
+          class="gold-btn reveal reveal-d3"
+        >
+          <i class="fa-solid fa-play"></i> Listen Live on YouTube
+        </a>
+        <span class="live-btn-hint reveal reveal-d4">
+          <i class="fa-solid fa-circle-info"></i>
+          Opens in YouTube. No download needed.
+        </span>
+      </div>
+      <!-- Visual side -->
+      <div class="live-visual reveal reveal-d2">
+        <div class="ring ring-1"></div>
+        <div class="ring ring-2"></div>
+        <div class="ring ring-3"></div>
+        <div class="live-circle">
+          <i class="fa-solid fa-microphone-lines"></i>
+          <span>On Air</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       3. SUBSCRIBE SECTION
+  ============================================================ -->
+  <section class="subscribe-section" id="subscribe">
+    <div class="subscribe-inner">
+      <div class="subscribe-icon reveal">
+        <i class="fa-brands fa-youtube"></i>
+      </div>
+      <span class="section-eyebrow reveal reveal-d1">📢 Never Miss an Episode</span>
+      <h2 class="subscribe-title reveal reveal-d1">
+        Subscribe &amp; Get <em>Notified</em>
+      </h2>
+      <p class="subscribe-body reveal reveal-d2">
+        Hit subscribe on YouTube and tap the bell icon — you'll get notified the moment we go live or drop a new episode. It's free, it's instant, and it keeps you informed about your oral health.
+      </p>
+      <div class="subscribe-actions reveal reveal-d3">
+        <a
+          href="https://youtube.com/@DinoDentistClinic"
+          target="_blank"
+          rel="noopener"
+          class="yt-btn"
+        >
+          <i class="fa-brands fa-youtube"></i> Subscribe on YouTube
+        </a>
+        <a
+          href="https://wa.me/256776887527?text=Hi%20Dino%20Dental%20Kampala%2C%20please%20add%20me%20to%20your%20live%20session%20alerts%20list."
+          target="_blank"
+          rel="noopener"
+          class="wa-btn"
+        >
+          <i class="fa-brands fa-whatsapp"></i> WhatsApp Alerts
+        </a>
+      </div>
+
+      <!-- Platform chips -->
+      <div class="platform-chips reveal reveal-d4">
+        <a href="https://youtube.com/@DinoDentistClinic" target="_blank" class="chip yt">
+          <i class="fa-brands fa-youtube"></i> YouTube
+        </a>
+        <a href="https://m.facebook.com/dentaldino/" target="_blank" class="chip fb">
+          <i class="fa-brands fa-facebook-f"></i> Facebook
+        </a>
+        <a href="#" class="chip sp">
+          <i class="fa-brands fa-spotify"></i> Spotify
+        </a>
+        <a
+          href="https://wa.me/256776887527?text=Hi%20Dino%20Dental%20Kampala%2C%20please%20add%20me%20to%20your%20live%20session%20alerts%20list."
+          target="_blank" class="chip wa"
+        >
+          <i class="fa-brands fa-whatsapp"></i> WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       4. PREVIOUS EPISODES
+  ============================================================ -->
+  <section class="episodes-section" id="episodes">
+    <div class="episodes-header">
+      <span class="section-eyebrow reveal">📚 Previous Episodes</span>
+      <h2 class="reveal reveal-d1">Listen <em>On Demand</em></h2>
+      <p class="reveal reveal-d2">
+        Episodes coming soon. Subscribe on YouTube to be the first to know when we publish new content.
+      </p>
+    </div>
+
+    <div class="episodes-grid">
+
+      <!-- Episode Card 1 -->
+      <div class="episode-card reveal">
+        <div class="ep-thumb">
+          <div class="ep-thumb-bg"></div>
+          <div class="ep-thumb-icon">
+            <i class="fa-solid fa-microphone-lines"></i>
+          </div>
+          <span class="ep-coming-soon">Video coming soon</span>
+          <div class="ep-waveform">
+            <div class="wbar"></div><div class="wbar"></div><div class="wbar"></div>
+            <div class="wbar"></div><div class="wbar"></div><div class="wbar"></div>
+            <div class="wbar"></div>
+          </div>
+        </div>
+        <div class="ep-body">
+          <p class="ep-number">Episode 01</p>
+          <h3 class="ep-title">The Truth About Teeth Whitening</h3>
+          <p class="ep-desc">Separating fact from fiction — what actually works and what to avoid when whitening your teeth.</p>
+        </div>
+        <div class="ep-footer">
+          <span class="ep-status"><i class="fa-regular fa-clock"></i> Coming Soon</span>
+          <a
+            href="https://wa.me/256776887527?text=Hi%20Dino%20Dental%20Kampala%2C%20please%20notify%20me%20when%20Episode%201%20is%20out."
+            target="_blank"
+            class="ep-notify"
+          >
+            <i class="fa-brands fa-whatsapp"></i> Notify me
+          </a>
+        </div>
+      </div>
+
+      <!-- Episode Card 2 -->
+      <div class="episode-card reveal reveal-d1">
+        <div class="ep-thumb">
+          <div class="ep-thumb-bg"></div>
+          <div class="ep-thumb-icon">
+            <i class="fa-solid fa-tooth"></i>
+          </div>
+          <span class="ep-coming-soon">Video coming soon</span>
+          <div class="ep-waveform">
+            <div class="wbar"></div><div class="wbar"></div><div class="wbar"></div>
+            <div class="wbar"></div><div class="wbar"></div><div class="wbar"></div>
+            <div class="wbar"></div>
+          </div>
+        </div>
+        <div class="ep-body">
+          <p class="ep-number">Episode 02</p>
+          <h3 class="ep-title">Why Implants Change Lives</h3>
+          <p class="ep-desc">The life-changing impact of dental implants — beyond aesthetics, into confidence and quality of life.</p>
+        </div>
+        <div class="ep-footer">
+          <span class="ep-status"><i class="fa-regular fa-clock"></i> Coming Soon</span>
+          <a
+            href="https://wa.me/256776887527?text=Hi%20Dino%20Dental%20Kampala%2C%20please%20notify%20me%20when%20Episode%202%20is%20out."
+            target="_blank"
+            class="ep-notify"
+          >
+            <i class="fa-brands fa-whatsapp"></i> Notify me
+          </a>
+        </div>
+      </div>
+
+      <!-- Episode Card 3 -->
+      <div class="episode-card reveal reveal-d2">
+        <div class="ep-thumb">
+          <div class="ep-thumb-bg"></div>
+          <div class="ep-thumb-icon">
+            <i class="fa-solid fa-face-smile"></i>
+          </div>
+          <span class="ep-coming-soon">Video coming soon</span>
+          <div class="ep-waveform">
+            <div class="wbar"></div><div class="wbar"></div><div class="wbar"></div>
+            <div class="wbar"></div><div class="wbar"></div><div class="wbar"></div>
+            <div class="wbar"></div>
+          </div>
+        </div>
+        <div class="ep-body">
+          <p class="ep-number">Episode 03</p>
+          <h3 class="ep-title">Cosmetic Dentistry: What to Expect</h3>
+          <p class="ep-desc">Veneers, bonding, and smile makeovers — real costs, realistic timelines, and what the results look like.</p>
+        </div>
+        <div class="ep-footer">
+          <span class="ep-status"><i class="fa-regular fa-clock"></i> Coming Soon</span>
+          <a
+            href="https://wa.me/256776887527?text=Hi%20Dino%20Dental%20Kampala%2C%20please%20notify%20me%20when%20Episode%203%20is%20out."
+            target="_blank"
+            class="ep-notify"
+          >
+            <i class="fa-brands fa-whatsapp"></i> Notify me
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       5. NOTIFY STRIP
+  ============================================================ -->
+  <div class="notify-strip">
+    <div class="notify-strip-text">
+      <h3>Never Miss a Live Session</h3>
+      <p>We go live weekly with dental tips, Q&amp;As, and smile reveals. Get a WhatsApp message 1 hour before every session — no app needed.</p>
+    </div>
+    <div class="notify-strip-actions">
+      <a
+        href="https://wa.me/256776887527?text=Hi%20Dino%20Dental%20Kampala%2C%20please%20add%20me%20to%20your%20live%20session%20alerts%20list."
+        target="_blank"
+        rel="noopener"
+        class="notify-dark-btn"
+      >
+        <i class="fa-brands fa-whatsapp"></i> Get WhatsApp Alerts
+      </a>
+      <a
+        href="https://youtube.com/@DinoDentistClinic"
+        target="_blank"
+        rel="noopener"
+        class="notify-wa-btn"
+      >
+        <i class="fa-brands fa-youtube"></i> Subscribe on YouTube
+      </a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       FOOTER — identical to index.html, about.html, etc.
+  ============================================================ -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo-f">DINO DENTAL KAMPALA</div>
+        <p>Kampala's premier dental studio — where science meets artistry to craft extraordinary smiles.</p>
+        <p class="tagline-f">"Crafting Smiles. Restoring Confidence."</p>
+        <div class="socials">
+          <a href="https://m.facebook.com/dentaldino/" target="_blank" aria-label="Facebook">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="https://youtube.com/@DinoDentistClinic" target="_blank" aria-label="YouTube">
+            <i class="fa-brands fa-youtube"></i>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="podcast.html">Podcast</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Media</h4>
+        <ul>
+          <li><a href="videos.html">Video Library</a></li>
+          <li><a href="gallery.html">Smile Gallery</a></li>
+          <li><a href="podcast.html">Episodes</a></li>
+          <li><a href="contact.html">Book Now</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+256776887527">+256 776 887527</a></li>
+          <li><a href="tel:+256701887527">+256 701 887527</a></li>
+          <li><a href="mailto:info@dinodental.co.ug">info@dinodental.co.ug</a></li>
+          <li><a href="contact.html">Katwe, Kampala</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Dino Dental Kampala. All rights reserved.</p>
+      <p>This website is for informational purposes only and does not constitute medical advice.</p>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp — identical to all pages -->
+  <a
+    href="https://wa.me/256776887527?text=Hi%20Dino%20Dental%20Kampala%2C%20I'd%20like%20to%20book%20a%20consultation."
+    class="whatsapp-float"
+    target="_blank"
+    rel="noopener"
+    aria-label="Chat on WhatsApp"
+  >
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <!-- Scroll to top — identical to all pages -->
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+  <script>
+    /* ----------------------------------------------------------
+       NAV: Hamburger + scroll behaviour
+    ---------------------------------------------------------- */
+    const hamburger  = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+
+    // Close mobile menu when a link is tapped
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        mobileMenu.classList.remove('open');
+      });
+    });
+
+    /* ----------------------------------------------------------
+       SCROLL: Scroll-to-top visibility
+    ---------------------------------------------------------- */
+    const scrollTopBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => {
+      scrollTopBtn.classList.toggle('show', window.scrollY > 300);
+    });
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* ----------------------------------------------------------
+       SCROLL REVEAL — IntersectionObserver
+    ---------------------------------------------------------- */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // Once visible, stop observing to save resources
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+  </script>
+
+</body>
+</html>

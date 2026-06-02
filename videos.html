@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<!-- videos.html — DINO DENTAL KAMPALA | Video Library + YouTube Live: category filters, 3x2 grid, lightbox, live embed -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Watch & Learn | Video Library & Live Sessions | Dino Dental Kampala</title>
+  <meta name="description" content="Watch live sessions, patient stories, procedure demos and smile transformations at Dino Dental Kampala. East Africa's first dental video platform."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --cream: #f0f4f8; --charcoal: #1a1a1a; --gold: #1a73e8;
+      --gold-light: #4a90f5; --teal: #0d62c9; --white: #FFFFFF;
+      --dark-bg: #f0f4f8; --card-bg: #e8edf2; --nav-h: 72px;
+      --live-red: #FF4444;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--dark-bg); color: var(--white); overflow-x: hidden; }
+    h1,h2,h3,h4 { font-family: 'Playfair Display', serif; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ============================================================
+       LIVE BANNER
+    ============================================================ */
+    .live-banner {
+      display: none;
+      position: fixed; top: var(--nav-h); left: 0; right: 0; z-index: 990;
+      background: linear-gradient(90deg, #8B0000, var(--live-red), #8B0000);
+      background-size: 200% 100%;
+      animation: bannerScroll 4s linear infinite;
+      padding: 0.6rem 1.5rem;
+      align-items: center; justify-content: center; gap: 1rem;
+      font-size: 0.82rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600;
+    }
+    .live-banner.show { display: flex; }
+    @keyframes bannerScroll { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
+    .pulse-dot { width: 10px; height: 10px; border-radius: 50%; background: #fff; animation: pDot 1s ease-in-out infinite; flex-shrink: 0; }
+    @keyframes pDot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
+    .live-banner a { color: #fff; text-decoration: underline; margin-left: 0.5rem; }
+
+    /* ============================================================
+       NAV
+    ============================================================ */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: var(--nav-h); display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(1.5rem,5vw,4rem); background: rgba(26,26,24,0.95); backdrop-filter: blur(16px); box-shadow: 0 1px 0 rgba(196,162,101,0.15); }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--gold); letter-spacing: 0.1em; }
+    .nav-logo span { color: var(--charcoal); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(26,26,26,0.65); font-weight: 500; transition: color 0.3s; position: relative; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--gold); transition: width 0.3s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+    .nav-book { background: var(--gold); color: var(--dark-bg); padding: 0.55rem 1.4rem; border-radius: 2px; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; transition: background 0.3s; }
+    .nav-book:hover { background: var(--gold-light); color: var(--dark-bg); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: #1a1a1a; transition: all 0.3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu { display: none; position: fixed; top: var(--nav-h); left: 0; right: 0; background: rgba(26,26,24,0.97); backdrop-filter: blur(20px); padding: 2rem; flex-direction: column; gap: 1.5rem; border-top: 1px solid rgba(196,162,101,0.2); z-index: 999; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 1.1rem; color: rgba(26,26,26,0.8); padding-bottom: 0.5rem; border-bottom: 1px solid rgba(26,26,26,0.08); }
+    .mobile-menu a:hover { color: var(--gold); }
+
+    /* ============================================================
+       PAGE HERO
+    ============================================================ */
+    .page-hero {
+      padding: calc(var(--nav-h) + 4rem) clamp(1.5rem,5vw,5rem) 4rem;
+      background: linear-gradient(160deg, #0d0d0b 0%, var(--dark-bg) 100%);
+      position: relative; overflow: hidden;
+    }
+    .page-hero::after { content: ''; position: absolute; bottom: -100px; right: -100px; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(61,139,139,0.07) 0%, transparent 65%); }
+    .page-label { font-size: 0.72rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+    .page-title { font-size: clamp(2.5rem,6vw,5rem); color: var(--charcoal); line-height: 1.1; }
+    .page-title em { color: var(--gold); font-style: italic; }
+    .page-subtitle { font-size: 1.1rem; color: rgba(26,26,26,0.55); margin-top: 1rem; max-width: 560px; line-height: 1.7; }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+
+    /* BUTTONS */
+    .btn-live {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.75rem 1.6rem; border-radius: 3px; font-size: 0.82rem;
+      letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600;
+      transition: all 0.3s var(--ease); cursor: pointer; border: none;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-red { background: var(--live-red); color: #fff; }
+    .btn-red:hover { background: #e03030; transform: translateY(-2px); }
+    .btn-wa { background: #25D366; color: #fff; }
+    .btn-wa:hover { background: #1db954; transform: translateY(-2px); }
+    .btn-gold-outline { background: transparent; border: 1px solid var(--gold); color: var(--gold); }
+    .btn-gold-outline:hover { background: var(--gold); color: var(--dark-bg); }
+    .btn-ghost-sm { background: transparent; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.6); }
+    .btn-ghost-sm:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ============================================================
+       LIVE STREAM SECTION
+    ============================================================ */
+    .live-section {
+      padding: 5rem clamp(1.5rem,5vw,5rem);
+      background: #f0f4f8;
+    }
+    .section-label { font-size: 0.72rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+
+    .live-status-badge {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.45rem 1.1rem; border-radius: 20px; font-size: 0.75rem;
+      letter-spacing: 0.15em; text-transform: uppercase; font-weight: 700;
+      margin-bottom: 1.5rem; transition: all 0.4s;
+    }
+    .live-status-badge.is-live { background: rgba(255,68,68,0.15); border: 1px solid rgba(255,68,68,0.4); color: var(--live-red); }
+    .live-status-badge.is-offline { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.35); }
+    .live-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .is-live .live-dot { background: var(--live-red); animation: livePulse 1.2s ease-in-out infinite; }
+    .is-offline .live-dot { background: rgba(255,255,255,0.2); }
+    @keyframes livePulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,68,68,0.6)} 50%{box-shadow:0 0 0 6px rgba(255,68,68,0)} }
+
+    .stream-card { background: #ffffff; border: 1px solid rgba(26,115,232,0.1); border-radius: 8px; overflow: hidden; max-width: 960px; }
+    .stream-player { width: 100%; aspect-ratio: 16/9; background: #000; position: relative; }
+    .stream-player iframe { width: 100%; height: 100%; border: none; display: block; }
+
+    .offline-card { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg,#e8f0fe,#dde8f8); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.2rem; text-align: center; padding: 2rem; }
+    .offline-icon { width: 80px; height: 80px; border-radius: 50%; background: rgba(26,115,232,0.08); border: 1px solid rgba(26,115,232,0.2); display: flex; align-items: center; justify-content: center; }
+    .offline-icon i { font-size: 2rem; color: var(--gold); opacity: 0.5; }
+    .offline-card h3 { font-size: 1.3rem; color: rgba(26,26,26,0.75); }
+    .offline-card p { font-size: 0.88rem; color: rgba(26,26,26,0.5); max-width: 360px; line-height: 1.7; }
+
+    .stream-meta { padding: 1.2rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; border-top: 1px solid rgba(26,26,26,0.08); }
+    .stream-meta-left h3 { font-size: 1rem; color: var(--charcoal); }
+    .stream-meta-left p { font-size: 0.8rem; color: rgba(26,26,26,0.5); margin-top: 0.2rem; }
+    .stream-meta-right { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+    /* ============================================================
+       NOTIFY STRIP
+    ============================================================ */
+    .notify-strip {
+      padding: 2.5rem clamp(1.5rem,5vw,5rem);
+      background: rgba(37,211,102,0.04);
+      border-top: 1px solid rgba(37,211,102,0.1);
+      border-bottom: 1px solid rgba(37,211,102,0.1);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.5rem;
+    }
+    .notify-strip p { font-size: 0.9rem; color: rgba(26,26,26,0.6); max-width: 500px; line-height: 1.7; }
+    .notify-strip p strong { color: var(--charcoal); }
+    .notify-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+    /* ============================================================
+       FILTER BAR
+    ============================================================ */
+    .filter-bar { padding: 2.5rem clamp(1.5rem,5vw,5rem) 0; display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .filter-btn { padding: 0.55rem 1.4rem; border-radius: 20px; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; border: 1px solid rgba(26,26,26,0.2); color: rgba(26,26,26,0.6); background: transparent; cursor: pointer; transition: all 0.3s; }
+    .filter-btn.active, .filter-btn:hover { background: var(--gold); color: var(--dark-bg); border-color: var(--gold); }
+
+    /* ============================================================
+       VIDEO GRID
+    ============================================================ */
+    .videos-section { padding: 3rem clamp(1.5rem,5vw,5rem) 7rem; }
+    .videos-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    .video-card { background: #ffffff; border-radius: 6px; overflow: hidden; border: 1px solid rgba(26,115,232,0.1); cursor: pointer; transition: all 0.4s var(--ease); opacity: 0; transform: translateY(30px); }
+    .video-card.visible { opacity: 1; transform: none; }
+    .video-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(26,115,232,0.12); border-color: rgba(26,115,232,0.25); }
+
+    /* LIVE TAG on card */
+    .live-tag {
+      position: absolute; top: 0.7rem; left: 0.7rem; z-index: 2;
+      background: var(--live-red); color: #fff;
+      font-size: 0.65rem; letter-spacing: 0.15em; font-weight: 700; text-transform: uppercase;
+      padding: 0.25rem 0.6rem; border-radius: 3px;
+      display: flex; align-items: center; gap: 0.35rem;
+    }
+    .live-tag .dot { width: 6px; height: 6px; border-radius: 50%; background: #fff; animation: pDot 1s infinite; }
+
+    .video-thumb { position: relative; aspect-ratio: 16/9; background: linear-gradient(135deg,#d8e4f5,#c4d3ed); overflow: hidden; }
+    .thumb-gradient { position: absolute; inset: 0; background: linear-gradient(135deg,rgba(26,115,232,0.12),rgba(13,98,201,0.06)); }
+    .thumb-icon { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+    .thumb-icon i { font-size: 2.5rem; color: rgba(26,115,232,0.2); }
+    .play-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0); transition: background 0.3s; }
+    .video-card:hover .play-overlay { background: rgba(0,0,0,0.4); }
+    .play-circle { width: 56px; height: 56px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; color: var(--dark-bg); font-size: 1.1rem; opacity: 0; transform: scale(0.8); transition: all 0.3s var(--ease); }
+    .video-card:hover .play-circle { opacity: 1; transform: scale(1); }
+    .video-duration { position: absolute; bottom: 0.6rem; right: 0.6rem; background: rgba(0,0,0,0.75); padding: 0.2rem 0.5rem; border-radius: 3px; font-size: 0.72rem; color: var(--white); }
+
+    .video-info { padding: 1.2rem 1.2rem 1.5rem; }
+    .video-cat { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.4rem; }
+    .video-cat.live-cat { color: var(--live-red); }
+    .video-title { font-size: 0.95rem; color: var(--charcoal); line-height: 1.4; margin-bottom: 0.5rem; }
+    .video-desc { font-size: 0.8rem; color: rgba(26,26,26,0.5); line-height: 1.6; }
+    .watch-btn { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1rem; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+
+    /* ============================================================
+       LIGHTBOX
+    ============================================================ */
+    .lightbox { position: fixed; inset: 0; z-index: 2000; background: rgba(15,30,60,0.92); display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.4s var(--ease); }
+    .lightbox.open { opacity: 1; visibility: visible; }
+    .lightbox-inner { width: min(960px,94vw); transform: scale(0.9); transition: transform 0.4s var(--ease); }
+    .lightbox.open .lightbox-inner { transform: scale(1); }
+    .lightbox-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; gap: 1rem; }
+    .lightbox-title { font-size: 1.1rem; color: #ffffff; line-height: 1.4; }
+    .lightbox-close { width: 40px; height: 40px; flex-shrink: 0; border-radius: 50%; background: rgba(255,255,255,0.08); border: none; color: var(--white); font-size: 1rem; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
+    .lightbox-close:hover { background: rgba(255,255,255,0.18); }
+    .lightbox-video { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 6px; overflow: hidden; }
+    .lightbox-video iframe { width: 100%; height: 100%; border: none; }
+    .lightbox-placeholder { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg,#1a1a18,#232320); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; border-radius: 6px; }
+    .lightbox-placeholder i { font-size: 4rem; color: rgba(196,162,101,0.3); }
+    .lightbox-placeholder p { color: rgba(255,255,255,0.4); font-size: 0.9rem; }
+    .lightbox-actions { display: flex; gap: 0.75rem; margin-top: 1rem; flex-wrap: wrap; }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .footer { background: #111110; padding: 5rem clamp(1.5rem,5vw,5rem) 2rem; color: rgba(255,255,255,0.5); }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer-brand .logo-f { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--gold); letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+    .footer-brand p { font-size: 0.85rem; line-height: 1.7; max-width: 280px; }
+    .footer-brand .tagline-f { font-style: italic; color: rgba(255,255,255,0.3); margin-top: 0.5rem; font-size: 0.82rem; }
+    .footer-col h4 { font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; font-family: 'Inter', sans-serif; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-col ul a { font-size: 0.85rem; color: rgba(255,255,255,0.5); transition: color 0.3s; }
+    .footer-col ul a:hover { color: var(--gold); }
+    .socials { display: flex; gap: 1rem; margin-top: 1.5rem; }
+    .socials a { width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.5); font-size: 0.85rem; transition: all 0.3s; }
+    .socials a:hover { border-color: var(--gold); color: var(--gold); }
+    .footer-bottom { padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.07); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-bottom p { font-size: 0.78rem; }
+
+    .whatsapp-float { position: fixed; bottom: 2rem; right: 2rem; z-index: 900; width: 56px; height: 56px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; box-shadow: 0 4px 20px rgba(37,211,102,0.4); animation: waPulse 2.5s ease-in-out infinite; transition: transform 0.3s; }
+    .whatsapp-float:hover { transform: scale(1.1); animation: none; }
+    @keyframes waPulse { 0%,100%{box-shadow:0 4px 20px rgba(37,211,102,0.4)} 50%{box-shadow:0 4px 40px rgba(37,211,102,0.7),0 0 0 8px rgba(37,211,102,0.1)} }
+    .scroll-top { position: fixed; bottom: 6.5rem; right: 2rem; z-index: 900; width: 44px; height: 44px; border-radius: 50%; background: rgba(196,162,101,0.15); border: 1px solid var(--gold); display: flex; align-items: center; justify-content: center; color: var(--gold); cursor: pointer; opacity: 0; transform: translateY(10px); pointer-events: none; transition: all 0.3s; }
+    .scroll-top.show { opacity: 1; transform: none; pointer-events: all; }
+    .scroll-top:hover { background: var(--gold); color: #ffffff; }
+
+    @media (max-width: 1000px) { .videos-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 900px) {
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .nav-links, .nav-book { display: none; }
+      .hamburger { display: flex; }
+      .notify-strip { flex-direction: column; }
+      .stream-meta { flex-direction: column; }
+    }
+    @media (max-width: 600px) { .videos-grid { grid-template-columns: 1fr; } .footer-top { grid-template-columns: 1fr; } .hero-btns { flex-direction: column; } }
+  </style>
+</head>
+<body>
+
+  <!-- LIVE BANNER -->
+  <div class="live-banner" id="liveBanner">
+    <span class="pulse-dot"></span>
+    WE ARE LIVE NOW —
+    <a href="#live-stream" onclick="document.getElementById('live-stream').scrollIntoView({behavior:'smooth'});return false;">
+      Watch the Stream &darr;
+    </a>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav" id="mainNav">
+    <a href="index.html" class="nav-logo">DINO DENTAL <span>KAMPALA</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="podcast.html">Podcast</a></li>
+      <li><a href="videos.html" class="active">Videos</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-book">Book Now</a>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a>
+    <a href="podcast.html">Podcast</a><a href="videos.html">Videos</a><a href="gallery.html">Gallery</a>
+    <a href="contact.html">Contact</a>
+    <a href="contact.html" style="background:var(--gold);color:var(--dark-bg);padding:.8rem;text-align:center;font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:.82rem">Book Consultation</a>
+  </div>
+
+  <!-- ============================================================
+       PAGE HERO
+  ============================================================ -->
+  <section class="page-hero">
+    <p class="page-label reveal">Visual Education</p>
+    <h1 class="page-title reveal reveal-delay-1">Watch <em>&amp; Learn</em></h1>
+    <p class="page-subtitle reveal reveal-delay-2">Live sessions, patient stories, procedure demos, and smile transformations — all in one place.</p>
+    <div class="hero-btns reveal reveal-delay-2">
+      <a href="#live-stream" class="btn-live btn-red" onclick="document.getElementById('live-stream').scrollIntoView({behavior:'smooth'});return false;">
+        <span style="width:8px;height:8px;border-radius:50%;background:#fff;flex-shrink:0"></span>
+        Watch Live
+      </a>
+      <a href="https://wa.me/256776887527?text=Hi%20Dino%20Dental%20Kampala%2C%20please%20notify%20me%20before%20your%20next%20live%20session." target="_blank" class="btn-live btn-wa">
+        <i class="fa-brands fa-whatsapp"></i> Get Live Alerts
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       LIVE STREAM EMBED
+  ============================================================ -->
+  <section class="live-section" id="live-stream">
+    <p class="section-label reveal">Live Stream</p>
+    <h2 style="font-size:clamp(1.6rem,3vw,2.4rem);margin-bottom:1.5rem" class="reveal reveal-delay-1">Watch the Session Live</h2>
+
+    <div class="live-status-badge is-offline reveal reveal-delay-1" id="liveStatusBadge">
+      <span class="live-dot"></span>
+      <span id="liveStatusText">Currently Offline — Next session coming soon</span>
+    </div>
+
+    <div class="stream-card reveal reveal-delay-2">
+      <div class="stream-player">
+        <!-- 
+          YOUTUBE LIVE EMBED
+          Replace YOUR_CHANNEL_ID with your YouTube Channel ID (starts with UC...)
+          Set isLive = true in the script below when you go live
+        -->
+        <iframe
+          id="liveIframe"
+          src="https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID&autoplay=1&rel=0"
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowfullscreen
+          style="display:none;width:100%;height:100%;border:none"
+          title="Dino Dental Kampala Live Stream">
+        </iframe>
+
+        <div class="offline-card" id="offlineCard">
+          <div class="offline-icon"><i class="fa-solid fa-video"></i></div>
+          <h3>No Live Session Right Now</h3>
+          <p>We stream live weekly — dental tips, Q&As, and patient education. Subscribe to get notified the moment we go live.</p>
+          <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-top:0.5rem">
+            <a href="https://www.youtube.com/@dinodentalkampala4613" target="_blank" class="btn-live btn-red" style="font-size:.78rem;padding:.6rem 1.2rem">
+              <i class="fa-brands fa-youtube"></i> Subscribe on YouTube
+            </a>
+            <a href="https://wa.me/256776887527?text=Hi%20Dino%20Dental%20Kampala%2C%20please%20notify%20me%20before%20your%20next%20live%20session." target="_blank" class="btn-live btn-wa" style="font-size:.78rem;padding:.6rem 1.2rem">
+              <i class="fa-brands fa-whatsapp"></i> WhatsApp Alerts
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="stream-meta">
+        <div class="stream-meta-left">
+          <h3>Dino Dental Kampala — Live Session</h3>
+          <p>Dental Q&amp;A · Patient Education · Smile Reveals</p>
+        </div>
+        <div class="stream-meta-right">
+          <a href="https://www.youtube.com/@dinodentalkampala4613" target="_blank" class="btn-live btn-ghost-sm" style="font-size:.75rem;padding:.5rem 1rem">
+            <i class="fa-brands fa-youtube"></i> YouTube Channel
+          </a>
+          <a href="https://wa.me/256776887527?text=Hi%20Dino%20Dental%20Kampala%2C%20I%20have%20a%20question%20for%20the%20live%20session." target="_blank" class="btn-live btn-wa" style="font-size:.75rem;padding:.5rem 1rem">
+            <i class="fa-brands fa-whatsapp"></i> Ask a Question
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTIFY STRIP -->
+  <div class="notify-strip">
+    <p><strong>Never miss a live session.</strong> We go live every Tuesday and Thursday evening. Get a WhatsApp message 1 hour before every session — no app needed.</p>
+    <div class="notify-btns">
+      <a href="https://wa.me/256776887527?text=Hi%20Dino%20Dental%20Kampala%2C%20please%20add%20me%20to%20your%20live%20session%20alerts%20list." target="_blank" class="btn-live btn-wa">
+        <i class="fa-brands fa-whatsapp"></i> Get Notified on WhatsApp
+      </a>
+      <a href="https://www.youtube.com/@dinodentalkampala4613" target="_blank" class="btn-live btn-red">
+        <i class="fa-brands fa-youtube"></i> Subscribe on YouTube
+      </a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       FILTER BAR
+  ============================================================ -->
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">All Videos</button>
+    <button class="filter-btn" data-filter="live">Live Replays</button>
+    <button class="filter-btn" data-filter="patient">Patient Stories</button>
+    <button class="filter-btn" data-filter="procedure">Procedures</button>
+    <button class="filter-btn" data-filter="behind">Behind the Scenes</button>
+  </div>
+
+  <!-- ============================================================
+       VIDEO GRID
+  ============================================================ -->
+  <section class="videos-section">
+    <div class="videos-grid" id="videosGrid">
+
+      <!-- Card 1 — Dental Tips Funny -->
+      <div class="video-card" data-category="patient" data-title="Dental Tips — Dino Dental Kampala" data-youtube="3fUttJQy1k4" data-shorts="true">
+        <div class="video-thumb" style="aspect-ratio:9/16;max-height:340px">
+          <div class="thumb-gradient" style="background:linear-gradient(135deg,rgba(26,115,232,0.15),rgba(13,98,201,0.08))"></div>
+          <div class="thumb-icon"><i class="fa-solid fa-face-laugh-beam"></i></div>
+          <div class="play-overlay"><div class="play-circle"><i class="fa-solid fa-play"></i></div></div>
+          <span class="video-duration" style="position:absolute;bottom:.6rem;left:.6rem;background:rgba(26,115,232,0.85);padding:.2rem .5rem;border-radius:3px;font-size:.68rem;color:#fff;letter-spacing:.05em">SHORT</span>
+        </div>
+        <div class="video-info">
+          <p class="video-cat">Dental Tips</p>
+          <h3 class="video-title">Dental Tips — Dino Dental Kampala</h3>
+          <p class="video-desc">Fun and informative dental tips from Dr. Kironde Robert at Dino Dental Kampala. #fyp</p>
+          <span class="watch-btn">Watch <i class="fa-solid fa-arrow-right" style="font-size:.7rem"></i></span>
+        </div>
+      </div>
+
+      <!-- Card 2 — Dental Tips Funny Part 2 -->
+      <div class="video-card" data-category="patient" data-title="Dental Tips Part 2 — Dino Dental Kampala" data-youtube="aKdAVOBdCbM" data-shorts="true">
+        <div class="video-thumb" style="aspect-ratio:9/16;max-height:340px">
+          <div class="thumb-gradient" style="background:linear-gradient(135deg,rgba(61,139,139,0.15),rgba(26,115,232,0.1))"></div>
+          <div class="thumb-icon"><i class="fa-solid fa-face-laugh-squint"></i></div>
+          <div class="play-overlay"><div class="play-circle"><i class="fa-solid fa-play"></i></div></div>
+          <span class="video-duration" style="position:absolute;bottom:.6rem;left:.6rem;background:rgba(26,115,232,0.85);padding:.2rem .5rem;border-radius:3px;font-size:.68rem;color:#fff;letter-spacing:.05em">SHORT</span>
+        </div>
+        <div class="video-info">
+          <p class="video-cat">Dental Tips</p>
+          <h3 class="video-title">Dental Tips Part 2 — Dino Dental Kampala</h3>
+          <p class="video-desc">More fun dental education from the Dino Dental Kampala team. Learn while you laugh!</p>
+          <span class="watch-btn">Watch <i class="fa-solid fa-arrow-right" style="font-size:.7rem"></i></span>
+        </div>
+      </div>
+
+      <!-- Card 3 — Dental Tips Funny Part 3 -->
+      <div class="video-card" data-category="patient" data-title="Dental Tips Part 3 — Dino Dental Kampala" data-youtube="41-hKbvwvZ8" data-shorts="true">
+        <div class="video-thumb" style="aspect-ratio:9/16;max-height:340px">
+          <div class="thumb-gradient" style="background:linear-gradient(135deg,rgba(26,115,232,0.12),rgba(61,139,139,0.12))"></div>
+          <div class="thumb-icon"><i class="fa-solid fa-tooth"></i></div>
+          <div class="play-overlay"><div class="play-circle"><i class="fa-solid fa-play"></i></div></div>
+          <span class="video-duration" style="position:absolute;bottom:.6rem;left:.6rem;background:rgba(26,115,232,0.85);padding:.2rem .5rem;border-radius:3px;font-size:.68rem;color:#fff;letter-spacing:.05em">SHORT</span>
+        </div>
+        <div class="video-info">
+          <p class="video-cat">Dental Tips</p>
+          <h3 class="video-title">Dental Tips Part 3 — Dino Dental Kampala</h3>
+          <p class="video-desc">Dr. Kironde Robert keeps it real — practical dental tips you can use every day.</p>
+          <span class="watch-btn">Watch <i class="fa-solid fa-arrow-right" style="font-size:.7rem"></i></span>
+        </div>
+      </div>
+
+      <!-- Card 4 — Autism & Dental Filling -->
+      <div class="video-card" data-category="procedure" data-title="Autism &amp; Dental Filling — Dr. Kironde Robert" data-youtube="iMPo5KKIIEs" data-shorts="true">
+        <div class="video-thumb" style="aspect-ratio:9/16;max-height:340px">
+          <div class="thumb-gradient" style="background:linear-gradient(135deg,rgba(13,98,201,0.18),rgba(26,115,232,0.08))"></div>
+          <div class="thumb-icon"><i class="fa-solid fa-user-doctor"></i></div>
+          <div class="play-overlay"><div class="play-circle"><i class="fa-solid fa-play"></i></div></div>
+          <span class="video-duration" style="position:absolute;bottom:.6rem;left:.6rem;background:rgba(26,115,232,0.85);padding:.2rem .5rem;border-radius:3px;font-size:.68rem;color:#fff;letter-spacing:.05em">SHORT</span>
+        </div>
+        <div class="video-info">
+          <p class="video-cat">Procedure</p>
+          <h3 class="video-title">Autism &amp; Dental Filling — Dr. Kironde Robert</h3>
+          <p class="video-desc">Dr. Kironde Robert explains how Dino Dental Kampala handles dental fillings for patients with autism — with care, patience and expertise.</p>
+          <span class="watch-btn">Watch <i class="fa-solid fa-arrow-right" style="font-size:.7rem"></i></span>
+        </div>
+      </div>
+
+      <!-- Card 5 — Causes of Teeth Sensitivity -->
+      <div class="video-card" data-category="procedure" data-title="Causes of Teeth Sensitivity (Part 1) — Dr. Kironde Robert" data-youtube="sZ6JthtVoCI" data-shorts="true">
+        <div class="video-thumb" style="aspect-ratio:9/16;max-height:340px">
+          <div class="thumb-gradient" style="background:linear-gradient(135deg,rgba(26,115,232,0.14),rgba(13,98,201,0.14))"></div>
+          <div class="thumb-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
+          <div class="play-overlay"><div class="play-circle"><i class="fa-solid fa-play"></i></div></div>
+          <span class="video-duration" style="position:absolute;bottom:.6rem;left:.6rem;background:rgba(26,115,232,0.85);padding:.2rem .5rem;border-radius:3px;font-size:.68rem;color:#fff;letter-spacing:.05em">SHORT</span>
+        </div>
+        <div class="video-info">
+          <p class="video-cat">Oral Health</p>
+          <h3 class="video-title">Causes of Teeth Sensitivity — Part 1</h3>
+          <p class="video-desc">Why do your teeth hurt when you eat or drink? Dr. Kironde Robert breaks down the real causes of tooth sensitivity.</p>
+          <span class="watch-btn">Watch <i class="fa-solid fa-arrow-right" style="font-size:.7rem"></i></span>
+        </div>
+      </div>
+
+      <!-- Card 6 — Teeth Stains -->
+      <div class="video-card" data-category="procedure" data-title="Teeth Stains — Causes &amp; Solutions" data-youtube="tAh69VEMTKc" data-shorts="true">
+        <div class="video-thumb" style="aspect-ratio:9/16;max-height:340px">
+          <div class="thumb-gradient" style="background:linear-gradient(135deg,rgba(26,115,232,0.16),rgba(61,139,139,0.12))"></div>
+          <div class="thumb-icon"><i class="fa-solid fa-droplet"></i></div>
+          <div class="play-overlay"><div class="play-circle"><i class="fa-solid fa-play"></i></div></div>
+          <span class="video-duration" style="position:absolute;bottom:.6rem;left:.6rem;background:rgba(26,115,232,0.85);padding:.2rem .5rem;border-radius:3px;font-size:.68rem;color:#fff;letter-spacing:.05em">SHORT</span>
+        </div>
+        <div class="video-info">
+          <p class="video-cat">Oral Health</p>
+          <h3 class="video-title">Teeth Stains — Causes &amp; Solutions</h3>
+          <p class="video-desc">What causes teeth stains and how can you remove them? Dr. Kironde Robert at Dino Dental Kampala explains everything.</p>
+          <span class="watch-btn">Watch <i class="fa-solid fa-arrow-right" style="font-size:.7rem"></i></span>
+        </div>
+      </div>
+
+  <!-- ============================================================
+       LIGHTBOX
+  ============================================================ -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-inner">
+      <div class="lightbox-header">
+        <h3 class="lightbox-title" id="lightboxTitle">Video Title</h3>
+        <button class="lightbox-close" id="lightboxClose"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="lightbox-video" id="lightboxVideo">
+        <div class="lightbox-placeholder">
+          <i class="fa-solid fa-circle-play"></i>
+          <p>Click a video to watch</p>
+        </div>
+      </div>
+      <div class="lightbox-actions">
+        <a href="https://wa.me/256776887527?text=Hi%20Dino%20Dental%20Kampala%2C%20I%20watched%20your%20video%20and%20I'd%20like%20to%20book%20a%20consultation." target="_blank" class="btn-live btn-wa" style="font-size:.78rem;padding:.6rem 1.2rem">
+          <i class="fa-brands fa-whatsapp"></i> Book a Consultation
+        </a>
+        <a href="https://www.youtube.com/@dinodentalkampala4613" target="_blank" class="btn-live btn-ghost-sm" style="font-size:.78rem;padding:.6rem 1.2rem">
+          <i class="fa-brands fa-youtube"></i> More on YouTube
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo-f">DINO DENTAL KAMPALA</div>
+        <p>Kampala's premier dental studio — where science meets artistry.</p>
+        <p class="tagline-f">"Crafting Smiles. Restoring Confidence."</p>
+        <div class="socials">
+          <a href="https://m.facebook.com/dentaldino/" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="https://www.youtube.com/@dinodentalkampala4613" target="_blank" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="#" aria-label="Spotify"><i class="fa-brands fa-spotify"></i></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Pages</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="services.html">Services</a></li><li><a href="podcast.html">Podcast</a></li></ul></div>
+      <div class="footer-col"><h4>Media</h4><ul><li><a href="videos.html">Video Library</a></li><li><a href="gallery.html">Smile Gallery</a></li><li><a href="podcast.html">Live Sessions</a></li><li><a href="contact.html">Book Now</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="tel:+256776887527">+256 776 887527</a></li><li><a href="tel:+256701887527">+256 701 887527</a></li><li><a href="mailto:info@dinodental.co.ug">info@dinodental.co.ug</a></li><li><a href="contact.html">Katwe, Kampala</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Dino Dental Kampala. All rights reserved.</p>
+      <p>This website is for informational purposes only and does not constitute medical advice.</p>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/256776887527?text=Hi%20Dino%20Dental%20Kampala%2C%20I'd%20like%20to%20book%20a%20consultation." class="whatsapp-float" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to top"><i class="fa-solid fa-chevron-up"></i></button>
+
+  <script>
+    /* ============================================================
+       ★ LIVE SWITCH — CHANGE THIS ONE LINE TO GO LIVE ★
+       Set isLive = true  when you start streaming on YouTube
+       Set isLive = false when the session ends
+       Also replace YOUR_CHANNEL_ID in the iframe src above
+    ============================================================ */
+    const isLive = false;
+
+    /* LIVE STATE MANAGER */
+    (function() {
+      const banner      = document.getElementById('liveBanner');
+      const badge       = document.getElementById('liveStatusBadge');
+      const badgeText   = document.getElementById('liveStatusText');
+      const liveIframe  = document.getElementById('liveIframe');
+      const offlineCard = document.getElementById('offlineCard');
+
+      if (isLive) {
+        banner.classList.add('show');
+        badge.classList.remove('is-offline'); badge.classList.add('is-live');
+        badgeText.textContent = '🔴 LIVE NOW — Streaming on YouTube';
+        liveIframe.style.display = 'block';
+        offlineCard.style.display = 'none';
+        document.body.style.paddingTop = '36px';
+      } else {
+        liveIframe.style.display = 'none';
+        offlineCard.style.display = 'flex';
+      }
+    })();
+
+    /* NAV */
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => { hamburger.classList.toggle('open'); mobileMenu.classList.toggle('open'); });
+    window.addEventListener('scroll', () => { document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 300); });
+    document.getElementById('scrollTop').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    /* REVEAL */
+    const observer = new IntersectionObserver((entries) => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    /* STAGGER VIDEO CARDS */
+    const cardObs = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => { if(e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 100); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.video-card').forEach(c => cardObs.observe(c));
+
+    /* FILTER */
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const filter = this.dataset.filter;
+        document.querySelectorAll('.video-card').forEach(card => {
+          card.style.display = (filter === 'all' || card.dataset.category === filter) ? '' : 'none';
+        });
+      });
+    });
+
+    /* LIGHTBOX */
+    const lightbox = document.getElementById('lightbox');
+    const lightboxTitle = document.getElementById('lightboxTitle');
+    const lightboxVideo = document.getElementById('lightboxVideo');
+
+    document.querySelectorAll('.video-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const ytId    = card.dataset.youtube;
+        const title   = card.dataset.title;
+        const isShort = card.dataset.shorts === 'true';
+
+        lightboxTitle.textContent = title;
+
+        if (ytId === 'coming-soon') {
+          lightboxVideo.innerHTML = `
+            <div class="lightbox-placeholder">
+              <i class="fa-solid fa-circle-play"></i>
+              <p style="color:rgba(255,255,255,0.5);font-size:.95rem">Video coming soon</p>
+              <p style="color:rgba(255,255,255,0.3);font-size:.8rem;margin-top:.5rem">Subscribe on YouTube to be notified</p>
+            </div>`;
+        } else {
+          // Shorts need portrait embed; regular videos use standard embed
+          const embedUrl = isShort
+            ? \`https://www.youtube.com/embed/\${ytId}?autoplay=1&rel=0\`
+            : \`https://www.youtube.com/embed/\${ytId}?autoplay=1&rel=0\`;
+          const aspectStyle = isShort
+            ? 'aspect-ratio:9/16;max-height:70vh;margin:0 auto;'
+            : '';
+          lightboxVideo.innerHTML = \`<iframe src="\${embedUrl}" style="\${aspectStyle}width:100%;height:100%;border:none;" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>\`;
+        }
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      lightboxVideo.innerHTML = '';
+      document.body.style.overflow = '';
+    }
+    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => { if(e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLightbox(); });
+  </script>
+</body>
+</html>

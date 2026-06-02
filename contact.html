@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<!-- contact.html — DINO DENTAL KAMPALA | Contact & Booking: Split form layout, real clinic details, Google Maps embed -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book a Consultation | Dino Dental Kampala | Delta House, Katwe</title>
+  <meta name="description" content="Book your smile consultation at Dino Dental Kampala. Located at Delta House, opposite Total Katwe. Call or WhatsApp +256 776 887527."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --cream: #f0f4f8; --charcoal: #1a1a1a; --gold: #1a73e8;
+      --gold-light: #4a90f5; --teal: #0d62c9; --white: #FFFFFF;
+      --dark-bg: #f0f4f8; --card-bg: #e8edf2; --nav-h: 72px;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--charcoal); overflow-x: hidden; }
+    h1,h2,h3,h4 { font-family: 'Playfair Display', serif; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ============================================================
+       NAV
+    ============================================================ */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: var(--nav-h); display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(1.5rem,5vw,4rem); background: rgba(26,26,24,0.95); backdrop-filter: blur(16px); box-shadow: 0 1px 0 rgba(196,162,101,0.15); }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--gold); letter-spacing: 0.1em; }
+    .nav-logo span { color: var(--charcoal); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(26,26,26,0.65); font-weight: 500; transition: color 0.3s; position: relative; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--gold); transition: width 0.3s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+    .nav-book { background: var(--gold); color: var(--dark-bg); padding: 0.55rem 1.4rem; border-radius: 2px; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; transition: background 0.3s; }
+    .nav-book:hover { background: var(--gold-light); color: var(--dark-bg); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: #1a1a1a; transition: all 0.3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu { display: none; position: fixed; top: var(--nav-h); left: 0; right: 0; background: rgba(26,26,24,0.97); backdrop-filter: blur(20px); padding: 2rem; flex-direction: column; gap: 1.5rem; border-top: 1px solid rgba(196,162,101,0.2); z-index: 999; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 1.1rem; color: rgba(26,26,26,0.8); padding-bottom: 0.5rem; border-bottom: 1px solid rgba(26,26,26,0.08); }
+    .mobile-menu a:hover { color: var(--gold); }
+
+    /* ============================================================
+       PAGE HERO
+    ============================================================ */
+    .page-hero {
+      background: linear-gradient(135deg, #e8f0fe 0%, #f0f4f8 100%);
+      padding: calc(var(--nav-h) + 4rem) clamp(1.5rem,5vw,5rem) 5rem;
+      position: relative; overflow: hidden;
+    }
+    .page-hero::before {
+      content: ''; position: absolute; top: -20%; right: -5%;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(26,115,232,0.07) 0%, transparent 70%);
+    }
+    .page-label { font-size: 0.72rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+    .page-title { font-size: clamp(2.5rem,6vw,5rem); color: var(--charcoal); line-height: 1.1; }
+    .page-title em { color: var(--gold); font-style: italic; }
+    .page-subtitle { font-size: 1.1rem; color: rgba(26,26,26,0.55); margin-top: 1rem; max-width: 560px; line-height: 1.7; }
+
+    /* ============================================================
+       MAIN CONTACT SECTION
+    ============================================================ */
+    .contact-section {
+      padding: 6rem clamp(1.5rem,5vw,5rem);
+      display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 5rem;
+      align-items: start;
+    }
+
+    /* LEFT — FORM */
+    .form-side {}
+    .form-title { font-size: 1.8rem; margin-bottom: 0.5rem; }
+    .form-sub { font-size: 0.9rem; color: rgba(44,44,44,0.6); margin-bottom: 2.5rem; line-height: 1.6; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label {
+      font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+      font-weight: 600; color: rgba(44,44,44,0.6);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 0.85rem 1rem;
+      border: 1px solid rgba(26,115,232,0.2);
+      border-radius: 3px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: var(--charcoal);
+      background: var(--white);
+      transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+      outline: none;
+      appearance: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(196,162,101,0.12);
+    }
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C4A265' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+    }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .submit-btn {
+      width: 100%; margin-top: 1.5rem;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+      color: var(--dark-bg); padding: 1.1rem 2rem;
+      font-size: 0.9rem; letter-spacing: 0.15em; text-transform: uppercase;
+      font-weight: 700; border: none; border-radius: 3px; cursor: pointer;
+      transition: all 0.3s var(--ease); font-family: 'Inter', sans-serif;
+    }
+    .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(196,162,101,0.35); }
+    .submit-btn:active { transform: translateY(0); }
+
+    /* SUCCESS MESSAGE */
+    .success-msg {
+      display: none; margin-top: 1.5rem;
+      background: linear-gradient(135deg, rgba(26,115,232,0.06), rgba(13,98,201,0.04));
+      border: 1px solid rgba(26,115,232,0.2);
+      border-left: 3px solid var(--gold);
+      padding: 1.2rem 1.5rem; border-radius: 4px;
+    }
+    .success-msg.show { display: block; animation: fadeSlideIn 0.5s var(--ease); }
+    .success-msg p { font-size: 0.9rem; color: var(--charcoal); line-height: 1.7; }
+    .success-msg strong { color: var(--teal); }
+    @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+
+    /* RIGHT — INFO */
+    .info-side { position: sticky; top: calc(var(--nav-h) + 2rem); }
+    .info-card {
+      background: #f0f4f8; border-radius: 8px;
+      padding: 2.5rem; border: 1px solid rgba(26,115,232,0.1);
+    }
+    .info-card-label {
+      font-size: 0.72rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.5rem;
+    }
+    .info-items { display: flex; flex-direction: column; gap: 0; }
+    .info-item {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1.2rem 0; border-bottom: 1px solid rgba(26,26,26,0.08);
+    }
+    .info-item:last-child { border-bottom: none; }
+    .info-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: rgba(26,115,232,0.08); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold); font-size: 0.9rem;
+    }
+    .info-content {}
+    .info-label { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(26,26,26,0.4); margin-bottom: 0.3rem; }
+    .info-value { font-size: 0.9rem; color: rgba(26,26,26,0.8); line-height: 1.5; }
+    .info-value a { color: var(--gold); transition: color 0.3s; }
+    .info-value a:hover { color: var(--gold-light); }
+
+    /* WHATSAPP CTA BLOCK */
+    .wa-block {
+      margin-top: 1.5rem;
+      background: rgba(37,211,102,0.06);
+      border: 1px solid rgba(37,211,102,0.2);
+      border-radius: 6px; padding: 1.2rem 1.5rem;
+      display: flex; align-items: center; gap: 1rem;
+      cursor: pointer; transition: all 0.3s;
+    }
+    .wa-block:hover { background: rgba(37,211,102,0.14); }
+    .wa-block i { font-size: 1.8rem; color: #25D366; flex-shrink: 0; }
+    .wa-block-text {}
+    .wa-block-text strong { display: block; font-size: 0.9rem; color: var(--charcoal); margin-bottom: 0.2rem; }
+    .wa-block-text span { font-size: 0.78rem; color: rgba(255,255,255,0.45); }
+
+    /* HOURS */
+    .hours-grid { display: grid; gap: 0.3rem; margin-top: 0.3rem; }
+    .hours-row { display: flex; justify-content: space-between; font-size: 0.82rem; }
+    .hours-row .day { color: rgba(26,26,26,0.5); }
+    .hours-row .time { color: var(--gold); font-weight: 500; }
+    .hours-row.closed .time { color: rgba(26,26,26,0.3); }
+
+    /* ============================================================
+       MAP SECTION
+    ============================================================ */
+    .map-section {
+      padding: 0 clamp(1.5rem,5vw,5rem) 7rem;
+    }
+    .map-header { margin-bottom: 1.5rem; }
+    .map-header h2 { font-size: clamp(1.5rem,3vw,2.2rem); }
+    .map-header p { font-size: 0.9rem; color: rgba(44,44,44,0.6); margin-top: 0.4rem; }
+    .map-wrap {
+      width: 100%; height: 420px; border-radius: 8px; overflow: hidden;
+      border: 1px solid rgba(44,44,44,0.1);
+      box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+    }
+    .map-wrap iframe { width: 100%; height: 100%; border: none; }
+
+    /* DIRECTIONS STRIP */
+    .directions-strip {
+      margin-top: 1.5rem; padding: 1.2rem 1.5rem;
+      background: #e8f0fe; border-radius: 6px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .directions-strip p { font-size: 0.88rem; color: rgba(26,26,26,0.65); }
+    .directions-strip p span { color: var(--gold); font-weight: 500; }
+    .dir-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .dir-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.55rem 1.2rem; border-radius: 3px;
+      font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+      font-weight: 600; transition: all 0.3s; border: 1px solid;
+    }
+    .dir-btn-maps { border-color: var(--gold); color: var(--gold); }
+    .dir-btn-maps:hover { background: var(--gold); color: var(--dark-bg); }
+    .dir-btn-wa { border-color: #25D366; color: #25D366; }
+    .dir-btn-wa:hover { background: #25D366; color: var(--white); }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.15s; }
+    .reveal-delay-2 { transition-delay: 0.3s; }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .footer { background: #111110; padding: 5rem clamp(1.5rem,5vw,5rem) 2rem; color: rgba(255,255,255,0.5); }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer-brand .logo-f { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--gold); letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+    .footer-brand p { font-size: 0.85rem; line-height: 1.7; max-width: 280px; }
+    .footer-brand .tagline-f { font-style: italic; color: rgba(255,255,255,0.3); margin-top: 0.5rem; font-size: 0.82rem; }
+    .footer-col h4 { font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; font-family: 'Inter', sans-serif; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-col ul a { font-size: 0.85rem; color: rgba(255,255,255,0.5); transition: color 0.3s; }
+    .footer-col ul a:hover { color: var(--gold); }
+    .socials { display: flex; gap: 1rem; margin-top: 1.5rem; }
+    .socials a { width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.5); font-size: 0.85rem; transition: all 0.3s; }
+    .socials a:hover { border-color: var(--gold); color: var(--gold); }
+    .footer-bottom { padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.07); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-bottom p { font-size: 0.78rem; }
+
+    /* WHATSAPP FLOAT + SCROLL TOP */
+    .whatsapp-float { position: fixed; bottom: 2rem; right: 2rem; z-index: 900; width: 56px; height: 56px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; box-shadow: 0 4px 20px rgba(37,211,102,0.4); animation: waPulse 2.5s ease-in-out infinite; transition: transform 0.3s; }
+    .whatsapp-float:hover { transform: scale(1.1); animation: none; }
+    @keyframes waPulse { 0%,100%{box-shadow:0 4px 20px rgba(37,211,102,0.4)} 50%{box-shadow:0 4px 40px rgba(37,211,102,0.7),0 0 0 8px rgba(37,211,102,0.1)} }
+    .scroll-top { position: fixed; bottom: 6.5rem; right: 2rem; z-index: 900; width: 44px; height: 44px; border-radius: 50%; background: rgba(196,162,101,0.15); border: 1px solid var(--gold); display: flex; align-items: center; justify-content: center; color: var(--gold); cursor: pointer; opacity: 0; transform: translateY(10px); pointer-events: none; transition: all 0.3s; }
+    .scroll-top.show { opacity: 1; transform: none; pointer-events: all; }
+    .scroll-top:hover { background: var(--gold); color: #ffffff; }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 1000px) {
+      .contact-section { grid-template-columns: 1fr; gap: 3rem; }
+      .info-side { position: static; }
+    }
+    @media (max-width: 900px) {
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .nav-links, .nav-book { display: none; }
+      .hamburger { display: flex; }
+    }
+    @media (max-width: 600px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAV
+  ============================================================ -->
+  <nav class="nav" id="mainNav">
+    <a href="index.html" class="nav-logo">DINO DENTAL <span>KAMPALA</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="podcast.html">Podcast</a></li>
+      <li><a href="videos.html">Videos</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-book">Book Now</a>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a>
+    <a href="podcast.html">Podcast</a><a href="videos.html">Videos</a><a href="gallery.html">Gallery</a>
+    <a href="contact.html">Contact</a>
+    <a href="contact.html" style="background:var(--gold);color:var(--dark-bg);padding:.8rem;text-align:center;font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:.82rem">Book Consultation</a>
+  </div>
+
+  <!-- ============================================================
+       PAGE HERO
+  ============================================================ -->
+  <section class="page-hero">
+    <p class="page-label reveal">Get in Touch</p>
+    <h1 class="page-title reveal reveal-delay-1">Book Your <em>Smile</em><br>Consultation</h1>
+    <p class="page-subtitle reveal reveal-delay-2">We'll confirm your appointment within 2 hours via WhatsApp. Walk-ins welcome during clinic hours.</p>
+  </section>
+
+  <!-- ============================================================
+       CONTACT SPLIT LAYOUT
+  ============================================================ -->
+  <section class="contact-section">
+
+    <!-- LEFT: BOOKING FORM -->
+    <div class="form-side reveal">
+      <h2 class="form-title">Request an Appointment</h2>
+      <p class="form-sub">Fill in your details and preferred time. We'll reach out on WhatsApp to confirm your slot within 2 hours.</p>
+
+      <div class="form-grid" id="bookingForm">
+
+        <div class="form-group">
+          <label for="fullName">Full Name <span style="color:var(--gold)">*</span></label>
+          <input type="text" id="fullName" name="fullName" placeholder="e.g. Sarah Nakato" required/>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number <span style="color:var(--gold)">*</span></label>
+          <input type="tel" id="phone" name="phone" placeholder="+256 7XX XXX XXX" required/>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com"/>
+        </div>
+
+        <div class="form-group">
+          <label for="prefDate">Preferred Date</label>
+          <input type="date" id="prefDate" name="prefDate"/>
+        </div>
+
+        <div class="form-group">
+          <label for="prefTime">Preferred Time</label>
+          <select id="prefTime" name="prefTime">
+            <option value="" disabled selected>Select a time</option>
+            <option value="morning">Morning — 8AM to 12PM</option>
+            <option value="afternoon">Afternoon — 12PM to 4PM</option>
+            <option value="evening">Evening — 4PM to 6PM</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="service">Service Needed</label>
+          <select id="service" name="service">
+            <option value="" disabled selected>Select a service</option>
+            <option value="checkup">General Checkup</option>
+            <option value="cosmetic">Cosmetic Dentistry</option>
+            <option value="implants">Dental Implants</option>
+            <option value="invisalign">Invisalign</option>
+            <option value="whitening">Teeth Whitening</option>
+            <option value="emergency">Emergency Care</option>
+          </select>
+        </div>
+
+        <div class="form-group full">
+          <label for="message">Additional Message</label>
+          <textarea id="message" name="message" placeholder="Tell us about your concern or anything else we should know..."></textarea>
+        </div>
+
+      </div>
+
+      <button class="submit-btn" id="submitBtn" type="button">
+        <i class="fa-solid fa-calendar-check" style="margin-right:.6rem"></i>
+        Book My Consultation
+      </button>
+
+      <div class="success-msg" id="successMsg">
+        <p>
+          <strong><i class="fa-solid fa-circle-check" style="margin-right:.4rem"></i>Booking Request Received!</strong><br>
+          Thank you! Your booking request has been received. We'll confirm your appointment within <strong>2 hours via WhatsApp</strong>. If urgent, call or WhatsApp us directly at <strong>+256 776 887527</strong>.
+        </p>
+      </div>
+    </div>
+
+    <!-- RIGHT: CONTACT INFO -->
+    <div class="info-side reveal reveal-delay-1">
+      <div class="info-card">
+        <p class="info-card-label">Contact & Location</p>
+        <div class="info-items">
+
+          <div class="info-item">
+            <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+            <div class="info-content">
+              <p class="info-label">Phone</p>
+              <p class="info-value">
+                <a href="tel:+256776887527">+256 776 887527</a><br>
+                <a href="tel:+256701887527">+256 701 887527</a>
+              </p>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon"><i class="fa-brands fa-whatsapp"></i></div>
+            <div class="info-content">
+              <p class="info-label">WhatsApp</p>
+              <p class="info-value">
+                <a href="https://wa.me/256776887527?text=Hi%20Dino%20Dental%20Kampala%2C%20I'd%20like%20to%20book%20a%20consultation." target="_blank">+256 776 887527</a>
+                <br><span style="font-size:.78rem;color:rgba(255,255,255,0.35)">Tap to open chat</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
+            <div class="info-content">
+              <p class="info-label">Email</p>
+              <p class="info-value"><a href="mailto:info@dinodental.co.ug">info@dinodental.co.ug</a></p>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+            <div class="info-content">
+              <p class="info-label">Address</p>
+              <p class="info-value">
+                Delta House, Opposite Total BMK<br>
+                Katwe, Kampala, Uganda
+              </p>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon"><i class="fa-regular fa-clock"></i></div>
+            <div class="info-content">
+              <p class="info-label">Opening Hours</p>
+              <div class="hours-grid" style="margin-top:.5rem">
+                <div class="hours-row"><span class="day">Mon – Fri</span><span class="time">8:00 AM – 6:00 PM</span></div>
+                <div class="hours-row"><span class="day">Saturday</span><span class="time">9:00 AM – 2:00 PM</span></div>
+                <div class="hours-row closed"><span class="day">Sunday</span><span class="time">Closed</span></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- WHATSAPP QUICK ACTION -->
+      <a href="https://wa.me/256776887527?text=Hi%20Dino%20Dental%20Kampala%2C%20I'd%20like%20to%20book%20a%20consultation." target="_blank" class="wa-block">
+        <i class="fa-brands fa-whatsapp"></i>
+        <div class="wa-block-text">
+          <strong>Chat on WhatsApp</strong>
+          <span>Tap to send a pre-filled booking message</span>
+        </div>
+      </a>
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       GOOGLE MAPS SECTION
+  ============================================================ -->
+  <section class="map-section reveal">
+    <div class="map-header">
+      <h2>Find Us in Katwe, Kampala</h2>
+      <p>Delta House, opposite Total BMK Katwe Service Station · Easy parking available</p>
+    </div>
+
+    <div class="map-wrap">
+      <!--
+        LIVE GOOGLE MAPS EMBED
+        Location: Dino Dental Kampala, Katwe — Lat: 0.3000319, Lng: 32.5759878
+        Replace the src URL with the actual embed link from Google Maps > Share > Embed a Map
+        for maximum accuracy.
+      -->
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.752993744843!2d32.573812775826966!3d0.30003193202882874!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x177dbb8c3b7b5555%3A0x0!2sDino+Dental+Kampala%2C+Delta+House%2C+Katwe!5e0!3m2!1sen!2sug!4v1700000000000!5m2!1sen!2sug"
+        width="100%" height="100%"
+        style="border:0;" allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Dino Dental Kampala location map">
+      </iframe>
+    </div>
+
+    <div class="directions-strip">
+      <p>
+        <i class="fa-solid fa-location-dot" style="color:var(--gold);margin-right:.4rem"></i>
+        Delta House, <span>opposite Total BMK</span>, Katwe, Kampala
+      </p>
+      <div class="dir-btns">
+        <a href="https://maps.google.com/?q=Dino+Dental+Kampala" target="_blank" class="dir-btn dir-btn-maps">
+          <i class="fa-solid fa-map"></i> Google Maps
+        </a>
+        <a href="https://wa.me/256776887527?text=Hi%20Dino%20Dental%20Kampala%2C%20please%20send%20me%20directions%20to%20the%20clinic." target="_blank" class="dir-btn dir-btn-wa">
+          <i class="fa-brands fa-whatsapp"></i> Ask for Directions
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo-f">DINO DENTAL KAMPALA</div>
+        <p>Kampala's premier dental studio — where science meets artistry to craft extraordinary smiles.</p>
+        <p class="tagline-f">"Crafting Smiles. Restoring Confidence."</p>
+        <div class="socials">
+          <a href="https://m.facebook.com/dentaldino/" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="#" aria-label="Spotify"><i class="fa-brands fa-spotify"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="podcast.html">Podcast</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Media</h4>
+        <ul>
+          <li><a href="videos.html">Video Library</a></li>
+          <li><a href="gallery.html">Smile Gallery</a></li>
+          <li><a href="podcast.html">Episodes</a></li>
+          <li><a href="contact.html">Book Now</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+256776887527">+256 776 887527</a></li>
+          <li><a href="tel:+256701887527">+256 701 887527</a></li>
+          <li><a href="mailto:info@dinodental.co.ug">info@dinodental.co.ug</a></li>
+          <li><a href="#">Katwe, Kampala, Uganda</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Dino Dental Kampala. All rights reserved.</p>
+      <p>This website is for informational purposes only and does not constitute medical advice.</p>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp -->
+  <a href="https://wa.me/256776887527?text=Hi%20Dino%20Dental%20Kampala%2C%20I'd%20like%20to%20book%20a%20consultation." class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <!-- Scroll to top -->
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
+  <script>
+    /* NAV */
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => { hamburger.classList.toggle('open'); mobileMenu.classList.toggle('open'); });
+    window.addEventListener('scroll', () => { document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 300); });
+    document.getElementById('scrollTop').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    /* SCROLL REVEAL */
+    const observer = new IntersectionObserver((entries) => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    /* SET MIN DATE TO TODAY */
+    const dateInput = document.getElementById('prefDate');
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.setAttribute('min', today);
+
+    /* FORM SUBMISSION */
+    document.getElementById('submitBtn').addEventListener('click', function() {
+      const name = document.getElementById('fullName').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+
+      if (!name) {
+        document.getElementById('fullName').focus();
+        document.getElementById('fullName').style.borderColor = '#e05c5c';
+        setTimeout(() => document.getElementById('fullName').style.borderColor = '', 2000);
+        return;
+      }
+      if (!phone) {
+        document.getElementById('phone').focus();
+        document.getElementById('phone').style.borderColor = '#e05c5c';
+        setTimeout(() => document.getElementById('phone').style.borderColor = '', 2000);
+        return;
+      }
+
+      /* Show success state */
+      this.textContent = '✓ Request Sent!';
+      this.style.background = 'linear-gradient(135deg, var(--teal), #2d7070)';
+      this.style.color = 'var(--white)';
+      this.disabled = true;
+
+      document.getElementById('successMsg').classList.add('show');
+      document.getElementById('successMsg').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      /* Build WhatsApp message with form data */
+      const service = document.getElementById('service').value || 'Not specified';
+      const prefDate = document.getElementById('prefDate').value || 'Flexible';
+      const prefTime = document.getElementById('prefTime').value || 'Flexible';
+      const message = document.getElementById('message').value.trim();
+
+      const waText = encodeURIComponent(
+        `Hi Dino Dental Kampala! I'd like to book a consultation.\n\n` +
+        `Name: ${name}\nPhone: ${phone}\nService: ${service}\nDate: ${prefDate}\nTime: ${prefTime}` +
+        (message ? `\nNotes: ${message}` : '')
+      );
+
+      /* Auto-open WhatsApp after 1.5s for seamless booking */
+      setTimeout(() => {
+        window.open(`https://wa.me/256776887527?text=${waText}`, '_blank');
+      }, 1500);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<!-- index.html — DINO DENTAL KAMPALA | Homepage: Cinematic hero, quick-link cards, stats strip, loading screen -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dino Dental Kampala | Crafting Smiles. Restoring Confidence. | Kampala</title>
+  <meta name="description" content="Dino Dental Kampala – Kampala's premier cinematic dental experience. Cosmetic dentistry, implants, whitening & more. Book your consultation today."/>
+  <meta property="og:title" content="Dino Dental Kampala | Kampala"/>
+  <meta property="og:description" content="Crafting Smiles. Restoring Confidence. Premium dental care in Kampala, Uganda."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    /* ============================================================
+       GLOBAL RESET & CSS VARIABLES
+    ============================================================ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --cream: #f0f4f8;
+      --charcoal: #1a1a1a;
+      --gold: #1a73e8;
+      --gold-light: #4a90f5;
+      --teal: #0d62c9;
+      --white: #FFFFFF;
+      --dark-bg: #f0f4f8;
+      --card-bg: #e8edf2;
+      --nav-h: 72px;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark-bg);
+      color: var(--charcoal);
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* ============================================================
+       LOADING SCREEN
+    ============================================================ */
+    #loader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--dark-bg);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      transition: opacity 0.8s var(--ease), visibility 0.8s;
+    }
+    #loader.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      opacity: 0;
+      animation: loaderFade 1.2s var(--ease) 0.3s forwards;
+    }
+    .loader-line {
+      width: 0; height: 1px; background: var(--gold);
+      margin-top: 1rem;
+      animation: loaderLine 1s var(--ease) 1s forwards;
+    }
+    .loader-sub {
+      font-size: 0.8rem; letter-spacing: 0.3em; color: rgba(26,26,26,0.4);
+      margin-top: 0.75rem; text-transform: uppercase;
+      opacity: 0; animation: loaderFade 1s ease 1.6s forwards;
+    }
+    @keyframes loaderFade { to { opacity: 1; } }
+    @keyframes loaderLine { to { width: 200px; } }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      height: var(--nav-h);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease);
+    }
+    .nav.scrolled {
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 2px 12px rgba(26,115,232,0.08);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 700;
+      color: var(--gold); letter-spacing: 0.1em;
+    }
+    .nav-logo span { color: var(--charcoal); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255,255,255,0.8); font-weight: 500;
+      transition: color 0.3s var(--ease);
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 1px; background: var(--gold);
+      transition: width 0.3s var(--ease);
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+    .nav-book {
+      background: var(--gold); color: var(--dark-bg);
+      padding: 0.55rem 1.4rem; border-radius: 2px;
+      font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+      font-weight: 600; transition: background 0.3s;
+    }
+    .nav-book:hover { background: var(--gold-light); color: var(--dark-bg); }
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px; cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px; background: var(--white);
+      transition: all 0.3s var(--ease);
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu {
+      display: none; position: fixed; top: var(--nav-h); left: 0; right: 0;
+      background: rgba(255,255,255,0.98); backdrop-filter: blur(20px);
+      padding: 2rem; flex-direction: column; gap: 1.5rem;
+      border-top: 1px solid rgba(26,115,232,0.15); z-index: 999;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 1.1rem; color: rgba(255,255,255,0.85); letter-spacing: 0.08em;
+      padding-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    .hero {
+      position: relative; min-height: 100vh;
+      background: var(--dark-bg);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    #particles-canvas {
+      position: absolute; inset: 0; z-index: 0;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background: radial-gradient(ellipse at 60% 40%, rgba(26,115,232,0.08) 0%, transparent 60%),
+                  radial-gradient(ellipse at 20% 80%, rgba(26,115,232,0.05) 0%, transparent 50%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center; padding: 0 1.5rem;
+      max-width: 900px;
+    }
+    .hero-eyebrow {
+      font-size: 0.78rem; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.5rem;
+      opacity: 0; transform: translateY(20px);
+      animation: heroReveal 0.8s var(--ease) 2.2s forwards;
+    }
+    .hero-title {
+      font-size: clamp(3rem, 9vw, 7rem); font-weight: 700; line-height: 1.05;
+      color: var(--charcoal);
+      opacity: 0; transform: translateY(30px);
+      animation: heroReveal 0.9s var(--ease) 2.5s forwards;
+    }
+    .hero-title em { color: var(--gold); font-style: italic; }
+    .hero-subtitle {
+      font-size: clamp(1.1rem, 3vw, 1.6rem); font-weight: 300;
+      color: rgba(26,26,26,0.6); margin-top: 1rem; font-family: 'Playfair Display', serif;
+      font-style: italic;
+      opacity: 0; transform: translateY(30px);
+      animation: heroReveal 0.9s var(--ease) 2.9s forwards;
+    }
+    .hero-divider {
+      width: 60px; height: 1px; background: var(--gold);
+      margin: 2rem auto;
+      opacity: 0; transform: scaleX(0);
+      animation: heroDivider 0.8s var(--ease) 3.2s forwards;
+    }
+    .hero-btns {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      opacity: 0; transform: translateY(20px);
+      animation: heroReveal 0.8s var(--ease) 3.5s forwards;
+    }
+    .btn-primary {
+      background: var(--gold); color: var(--dark-bg);
+      padding: 0.9rem 2.2rem; font-size: 0.85rem;
+      letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600;
+      border-radius: 2px; transition: all 0.3s var(--ease);
+      border: 1px solid var(--gold);
+    }
+    .btn-primary:hover {
+      background: transparent; color: var(--gold); transform: translateY(-2px);
+    }
+    .btn-ghost {
+      background: transparent; color: var(--white);
+      padding: 0.9rem 2.2rem; font-size: 0.85rem;
+      letter-spacing: 0.15em; text-transform: uppercase; font-weight: 500;
+      border-radius: 2px; border: 1px solid rgba(255,255,255,0.3);
+      transition: all 0.3s var(--ease);
+    }
+    .btn-ghost:hover {
+      border-color: var(--gold); color: var(--gold); transform: translateY(-2px);
+    }
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      opacity: 0; animation: heroReveal 1s var(--ease) 4s forwards;
+    }
+    .hero-scroll span {
+      font-size: 0.7rem; letter-spacing: 0.3em; color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+    }
+    .scroll-line {
+      width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse { 0%,100%{opacity:0.3;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.2)} }
+    @keyframes heroReveal { to { opacity: 1; transform: none; } }
+    @keyframes heroDivider { to { opacity: 1; transform: scaleX(1); } }
+
+    /* ============================================================
+       QUICK LINK CARDS
+    ============================================================ */
+    .quick-links {
+      background: #f8faff; padding: 6rem clamp(1.5rem, 5vw, 5rem);
+    }
+    .section-label {
+      font-size: 0.72rem; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.75rem;
+    }
+    .cards-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem; margin-top: 3rem;
+    }
+    .ql-card {
+      background: #ffffff;
+      border: 1px solid rgba(26,115,232,0.1);
+      padding: 2.5rem 2rem;
+      border-radius: 4px;
+      transition: all 0.4s var(--ease);
+      cursor: pointer; position: relative; overflow: hidden;
+      opacity: 0; transform: translateY(40px);
+    }
+    .ql-card.visible { opacity: 1; transform: none; }
+    .ql-card::before {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 2px; background: var(--gold);
+      transition: width 0.4s var(--ease);
+    }
+    .ql-card:hover::before { width: 100%; }
+    .ql-card:hover { transform: translateY(-6px); border-color: rgba(196,162,101,0.35); }
+    .ql-card:hover { box-shadow: 0 20px 40px rgba(26,115,232,0.12); }
+    .ql-icon {
+      width: 52px; height: 52px;
+      background: rgba(196,162,101,0.1); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+    .ql-icon i { color: var(--gold); font-size: 1.3rem; }
+    .ql-card h3 {
+      font-size: 1.2rem; color: var(--charcoal); margin-bottom: 0.75rem;
+    }
+    .ql-card p { font-size: 0.88rem; color: rgba(26,26,26,0.55); line-height: 1.6; }
+    .ql-card .card-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      margin-top: 1.5rem; font-size: 0.8rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--gold); font-weight: 600;
+    }
+    .ql-card .card-link i { transition: transform 0.3s; font-size: 0.75rem; }
+    .ql-card:hover .card-link i { transform: translateX(4px); }
+
+    /* ============================================================
+       STATS STRIP
+    ============================================================ */
+    .stats-strip {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+      padding: 4rem clamp(1.5rem, 5vw, 5rem);
+    }
+    .stats-inner {
+      display: flex; justify-content: center; align-items: center;
+      flex-wrap: wrap; gap: 3rem;
+    }
+    .stat-item { text-align: center; }
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 700;
+      color: #ffffff; line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(255,255,255,0.75); margin-top: 0.4rem; font-weight: 600;
+    }
+    .stat-divider {
+      width: 1px; height: 60px; background: rgba(26,26,24,0.2);
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .footer {
+      background: #0f1e36;
+      padding: 5rem clamp(1.5rem, 5vw, 5rem) 2rem;
+      color: rgba(255,255,255,0.55);
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem; margin-bottom: 3rem;
+    }
+    .footer-brand .logo-f {
+      font-family: 'Playfair Display', serif; font-size: 1.5rem;
+      color: var(--gold); letter-spacing: 0.1em; margin-bottom: 0.75rem;
+    }
+    .footer-brand p { font-size: 0.85rem; line-height: 1.7; max-width: 280px; }
+    .footer-brand .tagline-f {
+      font-style: italic; color: rgba(255,255,255,0.3);
+      margin-top: 0.5rem; font-size: 0.82rem;
+    }
+    .footer-col h4 {
+      font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.2rem; font-family: 'Inter', sans-serif;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-col ul a {
+      font-size: 0.85rem; color: rgba(255,255,255,0.5);
+      transition: color 0.3s;
+    }
+    .footer-col ul a:hover { color: var(--gold); }
+    .socials { display: flex; gap: 1rem; margin-top: 1.5rem; }
+    .socials a {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(255,255,255,0.15); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.5); font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .socials a:hover { border-color: var(--gold); color: var(--gold); }
+    .footer-bottom {
+      padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.07);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-bottom p { font-size: 0.78rem; }
+
+    /* ============================================================
+       FLOATING WHATSAPP + SCROLL-TO-TOP
+    ============================================================ */
+    .whatsapp-float {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 900;
+      width: 56px; height: 56px; border-radius: 50%;
+      background: #25D366;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 1.5rem;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+      animation: waPulse 2.5s ease-in-out infinite;
+      transition: transform 0.3s;
+    }
+    .whatsapp-float:hover { transform: scale(1.1); animation: none; }
+    @keyframes waPulse {
+      0%,100%{box-shadow:0 4px 20px rgba(37,211,102,0.4)}
+      50%{box-shadow:0 4px 40px rgba(37,211,102,0.7),0 0 0 8px rgba(37,211,102,0.1)}
+    }
+    .scroll-top {
+      position: fixed; bottom: 6.5rem; right: 2rem; z-index: 900;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(196,162,101,0.15); border: 1px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold); cursor: pointer;
+      opacity: 0; transform: translateY(10px); pointer-events: none;
+      transition: all 0.3s var(--ease);
+    }
+    .scroll-top.show { opacity: 1; transform: none; pointer-events: all; }
+    .scroll-top:hover { background: var(--gold); color: #ffffff; }
+
+    /* ============================================================
+       SCROLL REVEAL UTILITY
+    ============================================================ */
+    .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 900px) {
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .nav-links, .nav-book { display: none; }
+      .hamburger { display: flex; }
+    }
+    @media (max-width: 600px) {
+      .footer-top { grid-template-columns: 1fr; }
+      .stat-divider { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       LOADING SCREEN
+  ============================================================ -->
+  <div id="loader">
+    <div class="loader-logo">DINO DENTAL KAMPALA</div>
+    <div class="loader-line"></div>
+    <div class="loader-sub">Kampala · Uganda</div>
+  </div>
+
+  <!-- ============================================================
+       NAVIGATION
+  ============================================================ -->
+  <nav class="nav" id="mainNav">
+    <a href="index.html" class="nav-logo">DINO DENTAL <span>KAMPALA</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="podcast.html">Podcast</a></li>
+      <li><a href="videos.html">Videos</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-book">Book Now</a>
+    <div class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="podcast.html">Podcast</a>
+    <a href="videos.html">Videos</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="contact.html">Contact</a>
+    <a href="contact.html" class="btn-primary" style="text-align:center">Book Consultation</a>
+  </div>
+
+  <!-- ============================================================
+       HERO SECTION
+  ============================================================ -->
+  <section class="hero" id="hero">
+    <canvas id="particles-canvas"></canvas>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Kampala's Premier Dental Studio</p>
+      <h1 class="hero-title">Crafting <em>Smiles.</em></h1>
+      <p class="hero-subtitle">Restoring Confidence.</p>
+      <div class="hero-divider"></div>
+      <div class="hero-btns">
+        <a href="podcast.html" class="btn-primary"><i class="fa-solid fa-headphones" style="margin-right:.5rem"></i>Listen Now</a>
+        <a href="contact.html" class="btn-ghost">Book Consultation</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       QUICK LINK CARDS
+  ============================================================ -->
+  <section class="quick-links">
+    <p class="section-label reveal">Explore Dino Dental Kampala</p>
+    <h2 style="color:var(--charcoal);font-size:clamp(1.8rem,4vw,2.8rem)" class="reveal reveal-delay-1">Your Gateway to Better Oral Health</h2>
+    <div class="cards-grid">
+      <a href="podcast.html" class="ql-card" style="transition-delay:0.1s">
+        <div class="ql-icon"><i class="fa-solid fa-microphone-lines"></i></div>
+        <h3>Listen to Our Podcast</h3>
+        <p>Deep dives into oral health, cosmetic dentistry, and the stories behind beautiful smiles.</p>
+        <span class="card-link">Tune In <i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a href="videos.html" class="ql-card" style="transition-delay:0.2s">
+        <div class="ql-icon"><i class="fa-solid fa-circle-play"></i></div>
+        <h3>Watch Patient Stories</h3>
+        <p>Real transformations, real confidence. Watch how we change lives one smile at a time.</p>
+        <span class="card-link">Watch Now <i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+      <a href="about.html" class="ql-card" style="transition-delay:0.3s">
+        <div class="ql-icon"><i class="fa-solid fa-user-doctor"></i></div>
+        <h3>Meet the Dentist</h3>
+        <p>15+ years of expertise, international training, and a passion for transforming smiles in Kampala.</p>
+        <span class="card-link">Our Story <i class="fa-solid fa-arrow-right"></i></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       STATS STRIP
+  ============================================================ -->
+  <section class="stats-strip">
+    <div class="stats-inner">
+      <div class="stat-item reveal">
+        <div class="stat-number">15<span style="font-size:0.6em">+</span></div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item reveal reveal-delay-1">
+        <div class="stat-number">5000<span style="font-size:0.6em">+</span></div>
+        <div class="stat-label">Smiles Crafted</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item reveal reveal-delay-2">
+        <div class="stat-number">98<span style="font-size:0.5em">%</span></div>
+        <div class="stat-label">Patient Satisfaction</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo-f">DINO DENTAL KAMPALA</div>
+        <p>Kampala's premier dental studio — where science meets artistry to craft extraordinary smiles.</p>
+        <p class="tagline-f">"Crafting Smiles. Restoring Confidence."</p>
+        <div class="socials">
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="#" aria-label="Spotify"><i class="fa-brands fa-spotify"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="podcast.html">Podcast</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Media</h4>
+        <ul>
+          <li><a href="videos.html">Video Library</a></li>
+          <li><a href="gallery.html">Smile Gallery</a></li>
+          <li><a href="podcast.html">Episodes</a></li>
+          <li><a href="contact.html">Book Now</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+256776887527">+256 776 887527</a></li>
+          <li><a href="mailto:info@dinodental.co.ug">info@dinodental.co.ug</a></li>
+          <li><a href="contact.html">Katwe, Kampala</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Dino Dental Kampala. All rights reserved.</p>
+      <p>This website is for informational purposes only and does not constitute medical advice.</p>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp -->
+  <a href="https://wa.me/256776887527?text=Hi%20Dino%20Dental%20Kampala%2C%20I'd%20like%20to%20book%20a%20consultation." class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <!-- Scroll to top -->
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
+  <script>
+    /* ============================================================
+       LOADING SCREEN
+    ============================================================ */
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('hide');
+      }, 2600);
+    });
+
+    /* ============================================================
+       NAV: SCROLL STICKY + HAMBURGER
+    ============================================================ */
+    const nav = document.getElementById('mainNav');
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+      document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 300);
+    });
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+
+    document.getElementById('scrollTop').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* ============================================================
+       PARTICLES CANVAS
+    ============================================================ */
+    (function() {
+      const canvas = document.getElementById('particles-canvas');
+      const ctx = canvas.getContext('2d');
+      let W, H, particles = [];
+
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      const colors = ['rgba(196,162,101,', 'rgba(61,139,139,', 'rgba(255,255,255,'];
+
+      for (let i = 0; i < 80; i++) {
+        particles.push({
+          x: Math.random() * 1920,
+          y: Math.random() * 1080,
+          r: Math.random() * 1.5 + 0.3,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.15 - 0.1,
+          alpha: Math.random() * 0.5 + 0.1,
+          color: colors[Math.floor(Math.random() * colors.length)]
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        particles.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p.x % W, p.y % H, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.color + p.alpha + ')';
+          ctx.fill();
+          p.x += p.vx; p.y += p.vy;
+          if (p.y < -10) p.y = H + 10;
+        });
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    /* ============================================================
+       SCROLL REVEAL
+    ============================================================ */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal, .ql-card').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
